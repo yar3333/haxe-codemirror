@@ -1,0 +1,11 @@
+{
+  "name": "codemirror",
+  "license": "MIT",
+  "tags": ["js","extern"],
+  "description": "Externs for CodeMirror js library.",
+  "contributors": ["yar3333"],
+  "releasenote": "Init.",
+  "version": "1.0.0",
+  "url": "https://bitbucket.org/yar3333/haxe-codemirror",
+  "dependencies": {}
+}
