@@ -31,15 +31,17 @@ class Main
 		
 		Debug.assert(elements.length == 1, "elements.length = " + elements.length);
 		
-		processConfig(new HtmlDocument("<root>" + elements[0].config + "</root>"));
+		processConfig(elements[0].config, "../library/js/codemirror/Config.hx");
 	}
 	
-	static function processConfig(node:HtmlNodeElement)
+	static function processConfig(text:String, destFile:String)
 	{
+		var doc = new HtmlDocument("<root>" + text + "</root>");
+		
 		var options = [];
 		
-		var dtNodes = node.find(">root>dl>dt");
-		var ddNodes = node.find(">root>dl>dd");
+		var dtNodes = doc.find(">root>dl>dt");
+		var ddNodes = doc.find(">root>dl>dd");
 		
 		var i = 0; while (i < dtNodes.length)
 		{
@@ -64,8 +66,6 @@ class Main
 			
 			i++;
 		}
-		
-		var destFile = "../library/js/codemirror/Config.hx";
 		
 		if (!FileSystem.exists(Path.directory(destFile)))
 		{
