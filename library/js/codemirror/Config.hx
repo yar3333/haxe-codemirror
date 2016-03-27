@@ -25,7 +25,7 @@ typedef Config =
 	 *       mode names to their constructors, and the second maps MIME types
 	 *       to mode specs.
 	 */
-	var mode : haxe.extern.EitherType<String, object>;
+	var mode : haxe.extern.EitherType<String, Dynamic>;
 	
 	/**
 	 * Explicitly set the line separator for the editor. By default
@@ -129,7 +129,7 @@ typedef Config =
 	 *       by <a href="#option_keyMap"><code>keyMap</code></a>. Should be
 	 *       either null, or a valid <a href="#keymaps">key map</a> value.
 	 */
-	var extraKeys : object;
+	var extraKeys : Dynamic;
 	
 	/**
 	 * Whether CodeMirror should scroll or wrap for long lines.
