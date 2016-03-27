@@ -79,7 +79,11 @@ class Main
 			+ "\n"
 			+ "typedef Config =\n"
 			+ "{\n"
-			+ options.map.fn("\t" + (_.type.optional ? "@:optional " : "") + "var " + _.name + " : " + _.type.name + ";\n").join("")
+			+ options.map.fn
+			(
+				(_.desc != null && _.desc != "" ? "\t/**\n\t * " + _.desc.replace("\n", "\n\t * ") + "\n\t */\n" : "")
+				+ "\t" + (_.type.optional ? "@:optional " : "") + "var " + _.name + " : " + _.type.name + ";\n"
+			).join("\t\n")
 			+ "}\n"
 		);
 	}
