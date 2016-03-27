@@ -1,20 +1,12 @@
-import htmlparser.HtmlNodeElement;
 import hant.Log;
-import haxe.io.Path;
 import htmlparser.HtmlDocument;
-import htmlparser.HtmlParser;
+import htmlparser.HtmlNodeElement;
 import stdlib.Debug;
-import stdlib.Regex;
 import sys.FileSystem;
 import sys.io.File;
 import tjson.TJSON;
 using stdlib.Lambda;
 using stdlib.StringTools;
-
-typedef Element =
-{
-    var data: String;
-}
 
 class Main
 {
@@ -42,7 +34,7 @@ class Main
 	static function jsonToHtml(jsonFile:String) : String
 	{
 		var text = File.getContent(jsonFile);
-		var elements : Array<Element> = TJSON.parse(text);
+		var elements : Array<{ data:String }> = TJSON.parse(text);
 		
 		Debug.assert(elements.length == 1, "elements.length = " + elements.length);
 		
