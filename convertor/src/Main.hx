@@ -13,11 +13,7 @@ using stdlib.StringTools;
 
 typedef Element =
 {
-    var config: String;
-    var events: String;
-    var commands: String;
-    var styling: String;
-    var api: String;
+    var data: String;
 }
 
 class Main
@@ -32,13 +28,6 @@ class Main
 	
 	static function main()
 	{
-		var jsonFile = "bin/manual.json";
-		
-		var text = File.getContent(jsonFile);
-		var elements : Array<Element> = TJSON.parse(text);
-		
-		Debug.assert(elements.length == 1, "elements.length = " + elements.length);
-		
 		var destDir = "../library/js/codemirror";
 		
 		if (!FileSystem.exists(destDir))
@@ -46,13 +35,23 @@ class Main
 			FileSystem.createDirectory(destDir);
 		}
 		
-		processConfig(elements[0].config, destDir);
-		processEvents(elements[0].events, destDir);
+		processConfig("bin/config.json", destDir);
+		processEvents("bin/events.json", destDir);
 	}
 	
-	static function processConfig(text:String, destDir:String)
+	static function jsonToHtml(jsonFile:String) : String
 	{
-		var doc = new HtmlDocument("<root>" + text + "</root>");
+		var text = File.getContent(jsonFile);
+		var elements : Array<Element> = TJSON.parse(text);
+		
+		Debug.assert(elements.length == 1, "elements.length = " + elements.length);
+		
+		return elements[0].data;
+	}
+	
+	static function processConfig(jsonFile:String, destDir:String)
+	{
+		var doc = new HtmlDocument("<root>" + jsonToHtml(jsonFile) + "</root>");
 		
 		var options = [];
 		
@@ -99,9 +98,9 @@ class Main
 		);
 	}
 	
-	static function processEvents(text:String, destDir:String)
+	static function processEvents(jsonFile:String, destDir:String)
 	{
-		var doc = new HtmlDocument("<root>" + text + "</root>");
+		var doc = new HtmlDocument("<root>" + jsonToHtml(jsonFile) + "</root>");
 		
 		var dlNodes = doc.find(">root>dl");
 		Debug.assert(dlNodes.length == 5, "dlNodes.length = " + dlNodes.length);
