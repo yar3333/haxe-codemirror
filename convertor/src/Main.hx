@@ -35,6 +35,8 @@ class Main
 	
 	static function processConfig(jsonFile:String, destDir:String)
 	{
+		Log.start("CONFIG");
+		
 		var doc = new HtmlDocument("<root>" + jsonToHtml(jsonFile) + "</root>");
 		
 		var options = [];
@@ -80,10 +82,14 @@ class Main
 			).join("\t\n")
 			+ "}\n"
 		);
+		
+		Log.finishSuccess();
 	}
 	
 	static function processEvents(jsonFile:String, destDir:String)
 	{
+		Log.start("EVENTS");
+		
 		var doc = new HtmlDocument("<root>" + jsonToHtml(jsonFile) + "</root>");
 		
 		var dlNodes = doc.find(">root>dl");
@@ -94,6 +100,8 @@ class Main
 		processEventsInner("LineEvents", "Line", dlNodes[2], destDir);
 		processEventsInner("MarkedRangeEvents", "MarkedRange", dlNodes[3], destDir);
 		processEventsInner("LineWidgetsEvents", "LineWidgets", dlNodes[4], destDir);
+		
+		Log.finishSuccess();
 	}
 	
 	static function processEventsInner(className:String, targetType:String, node:HtmlNodeElement, destDir:String)
@@ -112,8 +120,6 @@ class Main
 			
 			var def = dt.innerText;
 			def = def.replace('"', "").trim();
-			
-			Log.echo("def = " + def);
 			
 			var re = ~/^([_a-z][_a-z0-9]*(?:\s*,\s*[_a-z][_a-z0-9]*)*)\s*[(]([^)]*)[)]$/i;
 			if (re.match(def))
