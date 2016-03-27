@@ -6,7 +6,7 @@ typedef Config =
 	 * The starting value of the editor. Can be a string, or
 	 *       a <a href="#api_doc">document object</a>.
 	 */
-	var value : haxe.extern.EitherType<String, CodeMirror.Doc>;
+	var value : haxe.extern.EitherType<String, Doc>;
 	
 	/**
 	 * The mode to use. When not given, this will default to the
