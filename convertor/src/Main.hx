@@ -146,7 +146,6 @@ class Main
 			  "package js.codemirror;\n"
 			+ "\n"
 			+ "class " + className+"\n"
-			
 			+ "{\n"
 			+ options.map.fn
 			(
