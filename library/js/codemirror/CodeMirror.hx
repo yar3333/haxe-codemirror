@@ -330,7 +330,7 @@ class CodeMirror extends Doc
 	 *       cheaper than repeatedly calling <code>getTokenAt</code>, which
 	 *       re-parses the part of the line before the token for every call.
 	 */
-	function getLineTokens(line:Int) : Array<{start, end, String, type, state}>;
+	function getLineTokens(line:Int) : Array<{ start:Dynamic, end:Dynamic, string:Dynamic, type:Dynamic, state:Dynamic }>;
 	
 	/**
 	 * This is a (much) cheaper version

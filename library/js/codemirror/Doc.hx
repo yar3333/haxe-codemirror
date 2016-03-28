@@ -175,7 +175,7 @@ class Doc
 	 *       and <code>head</code> properties referring to <code>{line,
 	 *       ch}</code> objects.
 	 */
-	function listSelections() : Array<{anchor, head}>;
+	function listSelections() : Array<{ anchor:Dynamic, head:Dynamic }>;
 	
 	/**
 	 * Return true if any text is selected.
@@ -231,7 +231,7 @@ class Doc
 	 *       had less ranges than the new one. Supports the same options
 	 *       as <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function setSelections(ranges:Array<{anchor, head}>) : Void;
+	function setSelections(ranges:Array<{ anchor:Dynamic, head:Dynamic }>) : Void;
 	
 	/**
 	 * Adds a new selection to the existing set of selections, and
@@ -259,7 +259,7 @@ class Doc
 	 *       of <a href="#extendSelection"><code>extendSelection</code></a>
 	 *       that acts on all selections at once.
 	 */
-	function extendSelections(heads:Array<{line, ch}>) : Void;
+	function extendSelections(heads:Array<{ line:Dynamic, ch:Dynamic }>) : Void;
 	
 	/**
 	 * Applies the given function to all existing selections, and

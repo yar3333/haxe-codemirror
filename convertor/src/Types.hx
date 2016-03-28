@@ -40,9 +40,14 @@ class Types
 					return "{ " + Params.parseParams(type.substring(1, type.length - 1)).map.fn((_.type.optional ? "?" : "") + _.name + ":" + _.type.name).join(", ") + " }";
 				}
 				
-				if (type.indexOf("<") >= 0)
+				var start = -1;
+				if ((start=type.indexOf("<")) >= 0)
 				{
-					type = ~/[_a-z][_a-z0-9]*/ig.map(type, function(re) return toHaxeTypeTrivial("", re.matched(0)));
+					var end = ParserTools.findPairBracket(type, start);
+					if (end >= 0)
+					{
+						type = toHaxeTypeTrivial(name, type.substring(0, start)) + "<" + toHaxeType("", type.substring(start + 1, end)).name + type.substring(end);
+					}
 				}
 				
 				if (type.startsWith("function"))
