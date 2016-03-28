@@ -500,7 +500,7 @@ extern class CodeMirror extends Doc
 	 *       and whenever the option is modified
 	 *       through <a href="#setOption"><code>setOption</code></a>.
 	 */
-	static function defineOption(name:String, default:Dynamic, updateFunc:Function) : Void;
+	static function defineOption(name:String, defaultValue:Dynamic, updateFunc:Function) : Void;
 	
 	/**
 	 * If your extension just needs to run some
