@@ -447,7 +447,7 @@ extern class Doc
 	 *       elements). <code>class</code> should be the name of the class to
 	 *       apply.
 	 */
-	function addLineClass(line:haxe.extern.EitherType<Int, LineHandle>, where:String, klass:String) : LineHandle;
+	function addLineClass(line:EitherType<Int, LineHandle>, where:String, klass:String) : LineHandle;
 	
 	/**
 	 * Remove a CSS class from a line. <code>line</code> can be a
@@ -458,7 +458,7 @@ extern class Doc
 	 *       can be left off to remove all classes for the specified node, or
 	 *       be a string to remove only a specific class.
 	 */
-	function removeLineClass(line:haxe.extern.EitherType<Int, LineHandle>, where:String, klass:String) : LineHandle;
+	function removeLineClass(line:EitherType<Int, LineHandle>, where:String, klass:String) : LineHandle;
 	
 	/**
 	 * Adds a line widget, an element shown below a line, spanning
