@@ -309,22 +309,12 @@ extern class CodeMirror extends Doc
 	
 	/**
 	 * Retrieves information about the token the current mode found
-	 *       before the given position (a <code>{line, ch}</code> object). The
-	 *       returned object has the following properties:
-	 *       <dl>
-	 *         <dt><code><strong>start</strong></code></dt><dd>The character (on the given line) at which the token starts.</dd>
-	 *         <dt><code><strong>end</strong></code></dt><dd>The character at which the token ends.</dd>
-	 *         <dt><code><strong>string</strong></code></dt><dd>The token's string.</dd>
-	 *         <dt><code><strong>type</strong></code></dt><dd>The token type the mode assigned
-	 *         to the token, such as <code>"keyword"</code>
-	 *         or <code>"comment"</code> (may also be null).</dd>
-	 *         <dt><code><strong>state</strong></code></dt><dd>The mode's state at the end of this token.</dd>
-	 *       </dl>
+	 *       before the given position (a <code>{line, ch}</code> object).
 	 *       If <code>precise</code> is true, the token will be guaranteed to be accurate based on recent edits. If false or
 	 *       not specified, the token will use cached state information, which will be faster but might not be accurate if
 	 *       edits were recently made and highlighting has not yet completed.
 	 */
-	function getTokenAt(pos:{ line:Dynamic, ch:Dynamic }) : Dynamic;
+	function getTokenAt(pos:{ line:Dynamic, ch:Dynamic }) : Token;
 	
 	/**
 	 * This is similar
@@ -374,7 +364,7 @@ extern class CodeMirror extends Doc
 	 *       contextual information for a line. <code>precise</code> is defined
 	 *       as in <code>getTokenAt()</code>.
 	 */
-	function getStateAfter() : Dynamic;
+	function getStateAfter(?line:Int, ?precise:Bool) : Dynamic;
 	
 	/**
 	 * CodeMirror internally buffers changes and only updates its
@@ -407,14 +397,14 @@ extern class CodeMirror extends Doc
 	 *           indentation by the given amount of spaces.</dd>
 	 *         </dl>
 	 */
-	function indentLine(line:Int) : Void;
+	function indentLine(line:Int, ?dir:EitherType<String, Int>) : Void;
 	
 	/**
 	 * Switches between overwrite and normal insert mode (when not
 	 *       given an argument), or sets the overwrite mode to a specific
 	 *       state (when given an argument).
 	 */
-	function toggleOverwrite() : Void;
+	function toggleOverwrite(?value:Bool) : Void;
 	
 	/**
 	 * Tells you whether the editor's content can be edited by the
@@ -478,7 +468,7 @@ extern class CodeMirror extends Doc
 	 *           <dd>Returns the textarea that the instance was based on.</dd>
 	 *         </dl>
 	 */
-	static function fromTextArea(textArea:TextAreaElement) : Void;
+	static function fromTextArea(textArea:TextAreaElement, ?config:Config) : CodeMirror;
 	
 	/**
 	 * If you want to define extra methods in terms of the
@@ -542,7 +532,7 @@ extern class CodeMirror extends Doc
 	 * A constructor for the <code>{line, ch}</code> objects that
 	 *       are used to represent positions in editor documents.
 	 */
-	static function Pos(line:Int) : Void;
+	static function Pos(line:Int, ?ch:Int) : Void;
 	
 	/**
 	 * Utility function that computes an end position from a change
