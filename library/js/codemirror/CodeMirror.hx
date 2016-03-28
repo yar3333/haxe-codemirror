@@ -3,10 +3,14 @@ package js.codemirror;
 import haxe.Constraints;
 import js.html.TextAreaElement;
 import js.html.Element;
+import haxe.extern.EitherType;
 
 @:native("CodeMirror")
 extern class CodeMirror extends Doc
 {
+	static var version : String;
+	static var defaults : Config;
+	
 	function new(place:Element, ?options:Config) : Void;
 	
 	/**
@@ -98,7 +102,7 @@ extern class CodeMirror extends Doc
 	 *       override the styling of the base mode entirely, instead of the
 	 *       two being applied together.
 	 */
-	function addOverlay(mode:haxe.extern.EitherType<String, Dynamic>) : Void;
+	function addOverlay(mode:EitherType<String, Dynamic>) : Void;
 	
 	/**
 	 * Pass this the exact value passed for the <code>mode</code>
@@ -106,7 +110,7 @@ extern class CodeMirror extends Doc
 	 *       or a string that corresponds to the <code>name</code> property of
 	 *       that value, to remove an overlay again.
 	 */
-	function removeOverlay(mode:haxe.extern.EitherType<String, Dynamic>) : Void;
+	function removeOverlay(mode:EitherType<String, Dynamic>) : Void;
 	
 	/**
 	 * Register an event handler for the given event type (a
@@ -143,7 +147,7 @@ extern class CodeMirror extends Doc
 	 *       will be shown in the specified gutter next to the specified
 	 *       line.
 	 */
-	function setGutterMarker(line:haxe.extern.EitherType<Int, LineHandle>, gutterID:String, value:Element) : LineHandle;
+	function setGutterMarker(line:EitherType<Int, LineHandle>, gutterID:String, value:Element) : LineHandle;
 	
 	/**
 	 * Remove all gutter markers in
@@ -162,7 +166,7 @@ extern class CodeMirror extends Doc
 	 *       line, and the various class properties refer to classes added
 	 *       with <a href="#addLineClass"><code>addLineClass</code></a>.
 	 */
-	function lineInfo(line:haxe.extern.EitherType<Int, LineHandle>) : Dynamic;
+	function lineInfo(line:EitherType<Int, LineHandle>) : Dynamic;
 	
 	/**
 	 * Puts <code>node</code>, which should be an absolutely
@@ -184,7 +188,7 @@ extern class CodeMirror extends Doc
 	 *       pass <code>null</code> for either of them to indicate that that
 	 *       dimension should not be changed.
 	 */
-	function setSize(width:haxe.extern.EitherType<Float, String>, height:haxe.extern.EitherType<Float, String>) : Void;
+	function setSize(width:EitherType<Float, String>, height:EitherType<Float, String>) : Void;
 	
 	/**
 	 * Scroll the editor to a given (pixel) position. Both
@@ -229,7 +233,7 @@ extern class CodeMirror extends Doc
 	 *       ch}</code> object is given, it specifies the precise position at
 	 *       which you want to measure.
 	 */
-	function cursorCoords(where:haxe.extern.EitherType<Bool, { line:Int, ch:Int }>, mode:String) : { left:Dynamic, top:Dynamic, bottom:Dynamic };
+	function cursorCoords(where:EitherType<Bool, { line:Int, ch:Int }>, mode:String) : { left:Dynamic, top:Dynamic, bottom:Dynamic };
 	
 	/**
 	 * Returns the position and dimensions of an arbitrary
@@ -267,7 +271,7 @@ extern class CodeMirror extends Doc
 	 *       the document is specified, the returned value is the bottom of
 	 *       the last line in the document.
 	 */
-	function heightAtLine(line:haxe.extern.EitherType<Int, LineHandle>) : Float;
+	function heightAtLine(line:EitherType<Int, LineHandle>) : Float;
 	
 	/**
 	 * Returns the line height of the default font for the editor.

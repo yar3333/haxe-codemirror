@@ -6,7 +6,7 @@ typedef Config =
 	 * The starting value of the editor. Can be a string, or
 	 *       a <a href="#api_doc">document object</a>.
 	 */
-	var value : haxe.extern.EitherType<String, Doc>;
+	@:optional var value : haxe.extern.EitherType<String, Doc>;
 	
 	/**
 	 * The mode to use. When not given, this will default to the
@@ -25,7 +25,7 @@ typedef Config =
 	 *       mode names to their constructors, and the second maps MIME types
 	 *       to mode specs.
 	 */
-	var mode : haxe.extern.EitherType<String, Dynamic>;
+	@:optional var mode : haxe.extern.EitherType<String, Dynamic>;
 	
 	/**
 	 * Explicitly set the line separator for the editor. By default
@@ -51,31 +51,31 @@ typedef Config =
 	 *       the <code>cm-s-foo</code> and the <code>cm-s-bar</code> classes
 	 *       to the editor.
 	 */
-	var theme : String;
+	@:optional var theme : String;
 	
 	/**
 	 * How many spaces a block (whatever that means in the edited
 	 *       language) should be indented. The default is 2.
 	 */
-	var indentUnit : Int;
+	@:optional var indentUnit : Int;
 	
 	/**
 	 * Whether to use the context-sensitive indentation that the
 	 *       mode provides (or just indent the same as the line before).
 	 *       Defaults to true.
 	 */
-	var smartIndent : Bool;
+	@:optional var smartIndent : Bool;
 	
 	/**
 	 * The width of a tab character. Defaults to 4.
 	 */
-	var tabSize : Int;
+	@:optional var tabSize : Int;
 	
 	/**
 	 * Whether, when indenting, the first N*<code>tabSize</code>
 	 *       spaces should be replaced by N tabs. Default is false.
 	 */
-	var indentWithTabs : Bool;
+	@:optional var indentWithTabs : Bool;
 	
 	/**
 	 * Configures whether the editor should re-indent the current
@@ -83,7 +83,7 @@ typedef Config =
 	 *       indentation (only works if the mode supports indentation).
 	 *       Default is true.
 	 */
-	var electricChars : Bool;
+	@:optional var electricChars : Bool;
 	
 	/**
 	 * A regular expression used to determine which characters
@@ -92,7 +92,7 @@ typedef Config =
 	 *       Mostly useful for non-printing special characters. The default
 	 *       is <code>/[\u0000-\u0019\u00ad\u200b-\u200f\u2028\u2029\ufeff]/</code>.
 	 */
-	var specialChars : RegExp;
+	@:optional var specialChars : RegExp;
 	
 	/**
 	 * A function that, given a special character identified by
@@ -101,7 +101,7 @@ typedef Config =
 	 *       character. By default, a red dot (<span style="color: red">•</span>)
 	 *       is shown, with a title tooltip to indicate the character code.
 	 */
-	var specialCharPlaceholder : String->js.html.Element;
+	@:optional var specialCharPlaceholder : String->js.html.Element;
 	
 	/**
 	 * Determines whether horizontal cursor movement through
@@ -111,7 +111,7 @@ typedef Config =
 	 *       right in right-to-left text). The default is <code>false</code>
 	 *       on Windows, and <code>true</code> on other platforms.
 	 */
-	var rtlMoveVisually : Bool;
+	@:optional var rtlMoveVisually : Bool;
 	
 	/**
 	 * Configures the key map to use. The default
@@ -121,7 +121,7 @@ typedef Config =
 	 *       the <a href="#keymaps">section on key maps</a> for more
 	 *       information.
 	 */
-	var keyMap : String;
+	@:optional var keyMap : String;
 	
 	/**
 	 * Can be used to specify extra key bindings for the editor,
@@ -129,30 +129,30 @@ typedef Config =
 	 *       by <a href="#option_keyMap"><code>keyMap</code></a>. Should be
 	 *       either null, or a valid <a href="#keymaps">key map</a> value.
 	 */
-	var extraKeys : Dynamic;
+	@:optional var extraKeys : Dynamic;
 	
 	/**
 	 * Whether CodeMirror should scroll or wrap for long lines.
 	 *       Defaults to <code>false</code> (scroll).
 	 */
-	var lineWrapping : Bool;
+	@:optional var lineWrapping : Bool;
 	
 	/**
 	 * Whether to show line numbers to the left of the editor.
 	 */
-	var lineNumbers : Bool;
+	@:optional var lineNumbers : Bool;
 	
 	/**
 	 * At which number to start counting lines. Default is 1.
 	 */
-	var firstLineNumber : Int;
+	@:optional var firstLineNumber : Int;
 	
 	/**
 	 * A function used to format line numbers. The function is
 	 *       passed the line number, and should return a string that will be
 	 *       shown in the gutter.
 	 */
-	var lineNumberFormatter : Int->String;
+	@:optional var lineNumberFormatter : Int->String;
 	
 	/**
 	 * Can be used to add extra gutters (beyond or instead of the
@@ -166,14 +166,14 @@ typedef Config =
 	 *       names are the keys passed
 	 *       to <a href="#setGutterMarker"><code>setGutterMarker</code></a>.
 	 */
-	var gutters : Array<String>;
+	@:optional var gutters : Array<String>;
 	
 	/**
 	 * Determines whether the gutter scrolls along with the content
 	 *       horizontally (false) or whether it stays fixed during horizontal
 	 *       scrolling (true, the default).
 	 */
-	var fixedGutter : Bool;
+	@:optional var fixedGutter : Bool;
 	
 	/**
 	 * Chooses a scrollbar implementation. The default
@@ -183,7 +183,7 @@ typedef Config =
 	 *       scrollbars. <a href="#addon_simplescrollbars">Addons</a> can
 	 *       implement additional scrollbar models.
 	 */
-	var scrollbarStyle : String;
+	@:optional var scrollbarStyle : String;
 	
 	/**
 	 * When <a href="#option_fixedGutter"><code>fixedGutter</code></a>
@@ -192,7 +192,7 @@ typedef Config =
 	 *       option is set to true, it will be covered by an element with
 	 *       class <code>CodeMirror-gutter-filler</code>.
 	 */
-	var coverGutterNextToScrollbar : Bool;
+	@:optional var coverGutterNextToScrollbar : Bool;
 	
 	/**
 	 * Selects the way CodeMirror handles input and focus. The core
@@ -205,7 +205,7 @@ typedef Config =
 	 *       make it the default on modern desktop browsers in the
 	 *       future.
 	 */
-	var inputStyle : String;
+	@:optional var inputStyle : String;
 	
 	/**
 	 * This disables editing of the editor content by the user. If
@@ -213,41 +213,41 @@ typedef Config =
 	 *       simply <code>true</code>), focusing of the editor is also
 	 *       disallowed.
 	 */
-	var readOnly : haxe.extern.EitherType<Bool, String>;
+	@:optional var readOnly : haxe.extern.EitherType<Bool, String>;
 	
 	/**
 	 * Whether the cursor should be drawn when a selection is
 	 *       active. Defaults to false.
 	 */
-	var showCursorWhenSelecting : Bool;
+	@:optional var showCursorWhenSelecting : Bool;
 	
 	/**
 	 * When enabled, which is the default, doing copy or cut when
 	 *       there is no selection will copy or cut the whole lines that have
 	 *       cursors on them.
 	 */
-	var lineWiseCopyCut : Bool;
+	@:optional var lineWiseCopyCut : Bool;
 	
 	/**
 	 * The maximum number of undo levels that the editor stores.
 	 *       Note that this includes selection change events. Defaults to
 	 *       200.
 	 */
-	var undoDepth : Int;
+	@:optional var undoDepth : Int;
 	
 	/**
 	 * The period of inactivity (in milliseconds) that will cause a
 	 *       new history event to be started when typing or deleting.
 	 *       Defaults to 1250.
 	 */
-	var historyEventDelay : Int;
+	@:optional var historyEventDelay : Int;
 	
 	/**
 	 * The <a href="http://www.w3.org/TR/html401/interact/forms.html#adef-tabindex">tab
 	 *       index</a> to assign to the editor. If not given, no tab index
 	 *       will be assigned.
 	 */
-	var tabindex : Int;
+	@:optional var tabindex : Int;
 	
 	/**
 	 * Can be used to make CodeMirror focus itself on
@@ -258,12 +258,12 @@ typedef Config =
 	 *       has an <code>autofocus</code> attribute and no other element is
 	 *       focused.
 	 */
-	var autofocus : Bool;
+	@:optional var autofocus : Bool;
 	
 	/**
 	 * Controls whether drag-and-drop is enabled. On by default.
 	 */
-	var dragDrop : Bool;
+	@:optional var dragDrop : Bool;
 	
 	/**
 	 * When set (default is <code>null</code>) only files whose
@@ -272,21 +272,21 @@ typedef Config =
 	 *       the <a href="https://w3c.github.io/FileAPI/#dfn-type"><code>type</code></a>
 	 *       of the <code>File</code> object as reported by the browser.
 	 */
-	var allowDropFileTypes : Array<String>;
+	@:optional var allowDropFileTypes : Array<String>;
 	
 	/**
 	 * Half-period in milliseconds used for cursor blinking. The default blink
 	 *       rate is 530ms. By setting this to zero, blinking can be disabled. A
 	 *       negative value hides the cursor entirely.
 	 */
-	var cursorBlinkRate : Float;
+	@:optional var cursorBlinkRate : Float;
 	
 	/**
 	 * How much extra space to always keep above and below the
 	 *       cursor when approaching the top or bottom of the visible view in
 	 *       a scrollable document. Default is 0.
 	 */
-	var cursorScrollMargin : Float;
+	@:optional var cursorScrollMargin : Float;
 	
 	/**
 	 * Determines the height of the cursor. Default is 1, meaning
@@ -295,14 +295,14 @@ typedef Config =
 	 *       which causes the cursor to not reach all the way to the bottom
 	 *       of the line, looks better
 	 */
-	var cursorHeight : Float;
+	@:optional var cursorHeight : Float;
 	
 	/**
 	 * Controls whether, when the context menu is opened with a
 	 *       click outside of the current selection, the cursor is moved to
 	 *       the point of the click. Defaults to <code>true</code>.
 	 */
-	var resetSelectionOnContextMenu : Bool;
+	@:optional var resetSelectionOnContextMenu : Bool;
 	
 	/**
 	 * Indicates how quickly CodeMirror should poll its input
@@ -311,7 +311,7 @@ typedef Config =
 	 *       generate events that allow CodeMirror to properly detect it.
 	 *       Thus, it polls. Default is 100 milliseconds.
 	 */
-	var pollInterval : Float;
+	@:optional var pollInterval : Float;
 	
 	/**
 	 * By default, CodeMirror will combine adjacent tokens into a
@@ -321,7 +321,7 @@ typedef Config =
 	 *       document looks. You can set this option to false to disable this
 	 *       behavior.
 	 */
-	var flattenSpans : Bool;
+	@:optional var flattenSpans : Bool;
 	
 	/**
 	 * When enabled (off by default), an extra CSS class will be
@@ -330,7 +330,7 @@ typedef Config =
 	 *       with <code>"cm-m-"</code>. For example, tokens from the XML mode
 	 *       will get the <code>cm-m-xml</code> class.
 	 */
-	var addModeClass : Bool;
+	@:optional var addModeClass : Bool;
 	
 	/**
 	 * When highlighting long lines, in order to stay responsive,
@@ -339,7 +339,7 @@ typedef Config =
 	 *       10 000. You can set this to <code>Infinity</code> to turn off
 	 *       this behavior.
 	 */
-	var maxHighlightLength : Float;
+	@:optional var maxHighlightLength : Float;
 	
 	/**
 	 * Specifies the amount of lines that are rendered above and
@@ -352,5 +352,5 @@ typedef Config =
 	 *       This <em>will</em> have bad effects on performance of big
 	 *       documents.
 	 */
-	var viewportMargin : Int;
+	@:optional var viewportMargin : Int;
 }
