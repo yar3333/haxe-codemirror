@@ -27,7 +27,7 @@ class Params
 			s = reName.matchedRight();
 			
 			var name = reName.matched(2);
-			var type = { name:"Dynamic", optional:reName.matched(1) == "?" };
+			var type = { name:"", optional:reName.matched(1) == "?" };
 			
 			var reTypePref = new EReg("^\\s*[:]\\s*", "i");
 			if (reTypePref.match(s))
@@ -39,16 +39,12 @@ class Params
 					var n = ParserTools.findPairBracket(s);
 					if (n > 0)
 					{
-						type =
-						{
-							name:"{ " + parseParams(s.substring(1, n)).map.fn
-							(
-								(_.type.optional ? "?" : "") + _.name + ":" + _.type.name
-							)
-							.join(", ") + " }",
-							optional:false
-						};
-						
+						type.name = "{ " + parseParams(s.substring(1, n)).map.fn
+											(
+												(_.type.optional ? "?" : "") + _.name + ":" + _.type.name
+											)
+											.join(", ")
+								 + " }";
 						s = n + 1 < s.length ? s.substring(n + 1) : "";
 					}
 				}
@@ -56,10 +52,17 @@ class Params
 				{
 					var n = ParserTools.findCharInThisScope(s, ",");
 					if (n < 0) n = s.length;
-					type = Types.toHaxeType(name, s.substring(0, n));
+					var t = Types.toHaxeType(name, s.substring(0, n));
+					type.name = t.name;
+					type.optional = type.optional || t.optional;
 					
 					s = n + 1 < s.length ? s.substring(n + 1) : "";
 				}
+			}
+			
+			if (type.name == "")
+			{
+				type = Types.toHaxeType(name, "");
 			}
 			
 			return [ { name:name, type:type } ].concat(parseParams(s));

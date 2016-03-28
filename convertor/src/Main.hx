@@ -253,6 +253,11 @@ class Main
 			destDir + "/Doc.hx",
 			  "package js.codemirror;\n"
 			+ "\n"
+			+ "import haxe.Constraints;\n"
+			+ "import haxe.extern.EitherType;\n"
+			+ "import js.html.Element;\n"
+			+ "import js.html.TextAreaElement;\n"
+			+ "\n"
 			+ "@:native(\"CodeMirror.Doc\")\n"
 			+ "extern class Doc\n"
 			+ "{\n"
@@ -265,9 +270,19 @@ class Main
 			destDir + "/CodeMirror.hx",
 			  "package js.codemirror;\n"
 			+ "\n"
+			+ "import haxe.Constraints;\n"
+			+ "import haxe.extern.EitherType;\n"
+			+ "import js.html.Element;\n"
+			+ "import js.html.TextAreaElement;\n"
+			+ "\n"
 			+ "@:native(\"CodeMirror\")\n"
 			+ "extern class CodeMirror extends Doc\n"
 			+ "{\n"
+			+ "\tstatic var version : String;\n"
+			+ "\tstatic var defaults : Config;\n"
+			+ "\t\n"
+			+ "\tfunction new(place:Element, ?options:Config) : Void;\n"
+			+ "\t\n"
 			+ options.filter.fn(_.name.startsWith("cm.")).map.fn(toExternMethodString(_)).join("\t\n")
 			+ options.filter.fn(_.name.startsWith("CodeMirror.")).map.fn(toExternMethodString(_, "static")).join("\t\n")
 			+ "}\n"

@@ -7,15 +7,17 @@ class Types
 	{
 		var types = type.split("|").map(std.StringTools.trim).filter.fn(_ != "");
 		var optional = types.has("null");
-		types = types.filter.fn(_ != "null").map.fn(toHaxeTypeTrivial(name, _));
-		return { name:toHaxeTypeInner(name, types), optional:optional };
+		types = types.filter.fn(_ != "null");
+		if (types.length == 0) types.push("");
+		types = types.map.fn(toHaxeTypeTrivial(name, _));
+		return { name:toComplexHaxeType(name, types), optional:optional };
 	}
 	
-	static function toHaxeTypeInner(name:String, types:Array<String>)
+	static function toComplexHaxeType(name:String, types:Array<String>)
 	{
 		if (types.length == 1) return types[0];
 		var t = types.pop();
-		return "haxe.extern.EitherType<" + toHaxeTypeInner(name, types) + ", " + t + ">";
+		return "EitherType<" + toComplexHaxeType(name, types) + ", " + t + ">";
 	}
 	
 	public static function toHaxeTypeTrivial(name:String, type:String) : String
@@ -27,6 +29,21 @@ class Types
 		
 		return switch (type)
 		{
+			case "":
+				return switch (name)
+				{
+					case "ch": "Int";
+					case "line": "Int";
+					case _: "Dynamic";
+				};
+				
+			case "object":
+				switch (name)
+				{
+					case "cm.getTokenAt": "Token";
+					case _: "Dynamic";
+				}
+				
 			case "fn(mode, CodeMirror)": "Dynamic->CodeMirror->Void";
 			case "(line: LineHandle)": "LineHandle->Void";
 			
@@ -37,19 +54,9 @@ class Types
 			case "integer": "Int";
 			case "number": "Float";
 			case "boolean": "Bool";
-			case "object", "any": "Dynamic";
+			case "any": "Dynamic";
 			case "helper": "Helper";
 			case _:
-				if (type == "Dynamic")
-				{
-					type = switch (name)
-					{
-						case "ch": "Int";
-						case "line": "Int";
-						case _: "Dynamic";
-					}
-				}
-				
 				if (type.startsWith("{") && type.endsWith("}"))
 				{
 					return "{ " + Params.parseParams(type.substring(1, type.length - 1)).map.fn((_.type.optional ? "?" : "") + _.name + ":" + _.type.name).join(", ") + " }";
@@ -74,6 +81,8 @@ class Types
 						type = params.map(Params.paramToType).join("->") + "->" + toHaxeTypeTrivial(name, re.matched(2));
 					}
 				}
+				
+				if (type == "") type = "Dynamic";
 				
 				type;
 		};
