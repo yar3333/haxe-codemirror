@@ -21,7 +21,7 @@ extern class Doc
 	 *       argument can be given to indicate the line separator string to
 	 *       use (defaults to <code>"\n"</code>).
 	 */
-	function getRange(from:{ line:Dynamic, ch:Dynamic }, to:{ line:Dynamic, ch:Dynamic }) : String;
+	function getRange(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }) : String;
 	
 	/**
 	 * Replace the part of the document between <code>from</code>
@@ -35,7 +35,7 @@ extern class Doc
 	 *       can be merged with previous history events, in the way described
 	 *       for <a href="#selection_origin">selection origins</a>.
 	 */
-	function replaceRange(replacement:String, from:{ line:Dynamic, ch:Dynamic }, to:{ line:Dynamic, ch:Dynamic }) : Void;
+	function replaceRange(replacement:String, from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }) : Void;
 	
 	/**
 	 * Get the content of line <code>n</code>.
@@ -165,7 +165,7 @@ extern class Doc
 	 *       passing <code>"head"</code>. A <code>{line, ch}</code> object
 	 *       will be returned.
 	 */
-	function getCursor() : { line:Dynamic, ch:Dynamic };
+	function getCursor() : { line:Int, ch:Int };
 	
 	/**
 	 * Retrieves a list of all current selections. These will
@@ -188,7 +188,7 @@ extern class Doc
 	 *       selections with a single, empty selection at the given position.
 	 *       The supported options are the same as for <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function setCursor(pos:{ line:Dynamic, ch:Dynamic }) : Void;
+	function setCursor(pos:{ line:Int, ch:Int }) : Void;
 	
 	/**
 	 * Set a single selection range. <code>anchor</code>
@@ -219,7 +219,7 @@ extern class Doc
 	 *         stuck.</dd>
 	 *       </dl>
 	 */
-	function setSelection(anchor:{ line:Dynamic, ch:Dynamic }) : Void;
+	function setSelection(anchor:{ line:Int, ch:Int }) : Void;
 	
 	/**
 	 * Sets a new set of selections. There must be at least one
@@ -236,7 +236,7 @@ extern class Doc
 	 * Adds a new selection to the existing set of selections, and
 	 *       makes it the primary selection.
 	 */
-	function addSelection(anchor:{ line:Dynamic, ch:Dynamic }) : Void;
+	function addSelection(anchor:{ line:Int, ch:Int }) : Void;
 	
 	/**
 	 * Similar
@@ -251,21 +251,21 @@ extern class Doc
 	 *       the primary selection will be dropped by this method.
 	 *       Supports the same options as <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function extendSelection(from:{ line:Dynamic, ch:Dynamic }) : Void;
+	function extendSelection(from:{ line:Int, ch:Int }) : Void;
 	
 	/**
 	 * An equivalent
 	 *       of <a href="#extendSelection"><code>extendSelection</code></a>
 	 *       that acts on all selections at once.
 	 */
-	function extendSelections(heads:Array<{ line:Dynamic, ch:Dynamic }>) : Void;
+	function extendSelections(heads:Array<{ line:Int, ch:Int }>) : Void;
 	
 	/**
 	 * Applies the given function to all existing selections, and
 	 *       calls <a href="#extendSelections"><code>extendSelections</code></a>
 	 *       on the result.
 	 */
-	function extendSelectionsBy(f:{ anchor:Dynamic, head:Dynamic }->{ line:Dynamic, ch:Dynamic }, ?options:Dynamic) : Void;
+	function extendSelectionsBy(f:{ anchor:Dynamic, head:Dynamic }->{ line:Int, ch:Int }, ?options:Dynamic) : Void;
 
 	/**
 	 * Sets or clears the 'extending' flag, which acts similar to
@@ -386,80 +386,7 @@ extern class Doc
 	/**
 	 * Can be used to mark a range of text with a specific CSS
 	 *       class name. <code>from</code> and <code>to</code> should
-	 *       be <code>{line, ch}</code> objects. The <code>options</code>
-	 *       parameter is optional. When given, it should be an object that
-	 *       may contain the following configuration options:
-	 *       <dl>
-	 *         <dt id="mark_className"><code><strong>className</strong>: string</code></dt>
-	 *         <dd>Assigns a CSS class to the marked stretch of text.</dd>
-	 *         <dt id="mark_inclusiveLeft"><code><strong>inclusiveLeft</strong>: boolean</code></dt>
-	 *         <dd>Determines whether
-	 *         text inserted on the left of the marker will end up inside
-	 *         or outside of it.</dd>
-	 *         <dt id="mark_inclusiveRight"><code><strong>inclusiveRight</strong>: boolean</code></dt>
-	 *         <dd>Like <code>inclusiveLeft</code>,
-	 *         but for the right side.</dd>
-	 *         <dt id="mark_atomic"><code><strong>atomic</strong>: boolean</code></dt>
-	 *         <dd>Atomic ranges act as a single unit when cursor movement is
-	 *         concerned—i.e. it is impossible to place the cursor inside of
-	 *         them. In atomic ranges, <code>inclusiveLeft</code>
-	 *         and <code>inclusiveRight</code> have a different meaning—they
-	 *         will prevent the cursor from being placed respectively
-	 *         directly before and directly after the range.</dd>
-	 *         <dt id="mark_collapsed"><code><strong>collapsed</strong>: boolean</code></dt>
-	 *         <dd>Collapsed ranges do not show up in the display. Setting a
-	 *         range to be collapsed will automatically make it atomic.</dd>
-	 *         <dt id="mark_clearOnEnter"><code><strong>clearOnEnter</strong>: boolean</code></dt>
-	 *         <dd>When enabled, will cause the mark to clear itself whenever
-	 *         the cursor enters its range. This is mostly useful for
-	 *         text-replacement widgets that need to 'snap open' when the
-	 *         user tries to edit them. The
-	 *         <a href="#event_clear"><code>"clear"</code></a> event
-	 *         fired on the range handle can be used to be notified when this
-	 *         happens.</dd>
-	 *         <dt id="mark_clearWhenEmpty"><code><strong>clearWhenEmpty</strong>: boolean</code></dt>
-	 *         <dd>Determines whether the mark is automatically cleared when
-	 *         it becomes empty. Default is true.</dd>
-	 *         <dt id="mark_replacedWith"><code><strong>replacedWith</strong>: Element</code></dt>
-	 *         <dd>Use a given node to display this range. Implies both
-	 *         collapsed and atomic. The given DOM node <em>must</em> be an
-	 *         inline element (as opposed to a block element).</dd>
-	 *         <dt><code><strong>handleMouseEvents</strong>: boolean</code></dt>
-	 *         <dd>When <code>replacedWith</code> is given, this determines
-	 *         whether the editor will capture mouse and drag events
-	 *         occurring in this widget. Default is false—the events will be
-	 *         left alone for the default browser handler, or specific
-	 *         handlers on the widget, to capture.</dd>
-	 *         <dt id="mark_readOnly"><code><strong>readOnly</strong>: boolean</code></dt>
-	 *         <dd>A read-only span can, as long as it is not cleared, not be
-	 *         modified except by
-	 *         calling <a href="#setValue"><code>setValue</code></a> to reset
-	 *         the whole document. <em>Note:</em> adding a read-only span
-	 *         currently clears the undo history of the editor, because
-	 *         existing undo events being partially nullified by read-only
-	 *         spans would corrupt the history (in the current
-	 *         implementation).</dd>
-	 *         <dt id="mark_addToHistory"><code><strong>addToHistory</strong>: boolean</code></dt>
-	 *         <dd>When set to true (default is false), adding this marker
-	 *         will create an event in the undo history that can be
-	 *         individually undone (clearing the marker).</dd>
-	 *         <dt id="mark_startStyle"><code><strong>startStyle</strong>: string</code></dt><dd>Can be used to specify
-	 *         an extra CSS class to be applied to the leftmost span that
-	 *         is part of the marker.</dd>
-	 *         <dt id="mark_endStyle"><code><strong>endStyle</strong>: string</code></dt><dd>Equivalent
-	 *         to <code>startStyle</code>, but for the rightmost span.</dd>
-	 *         <dt id="mark_css"><code><strong>css</strong>: string</code></dt>
-	 *         <dd>A string of CSS to be applied to the covered text. For example <code>"color: #fe3"</code>.</dd>
-	 *         <dt id="mark_title"><code><strong>title</strong>:
-	 *         string</code></dt><dd>When given, will give the nodes created
-	 *         for this span a HTML <code>title</code> attribute with the
-	 *         given value.</dd>
-	 *         <dt id="mark_shared"><code><strong>shared</strong>: boolean</code></dt><dd>When the
-	 *         target document is <a href="#linkedDoc">linked</a> to other
-	 *         documents, you can set <code>shared</code> to true to make the
-	 *         marker appear in all documents. By default, a marker appears
-	 *         only in its target document.</dd>
-	 *       </dl>
+	 *       be <code>{line, ch}</code> objects.
 	 *       The method will return an object that represents the marker
 	 *       (with constructor <code>CodeMirror.TextMarker</code>), which
 	 *       exposes three methods:
@@ -474,7 +401,7 @@ extern class Doc
 	 *       a <a href="#mark_replacedWith"><code>replacedWith</code></a>
 	 *       node), and want to cheaply update the display.
 	 */
-	function markText(from:{ line:Dynamic, ch:Dynamic }, to:{ line:Dynamic, ch:Dynamic }) : TextMarker;
+	function markText(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }, ?options:MarkTextOptions) : TextMarker;
 	
 	/**
 	 * Inserts a bookmark, a handle that follows the text around it
@@ -482,40 +409,21 @@ extern class Doc
 	 *       methods <code>find()</code> and <code>clear()</code>. The first
 	 *       returns the current position of the bookmark, if it is still in
 	 *       the document, and the second explicitly removes the bookmark.
-	 *       The options argument is optional. If given, the following
-	 *       properties are recognized:
-	 *       <dl>
-	 *         <dt><code><strong>widget</strong>: Element</code></dt><dd>Can be used to display a DOM
-	 *         node at the current location of the bookmark (analogous to
-	 *         the <a href="#mark_replacedWith"><code>replacedWith</code></a>
-	 *         option to <a href="#markText"><code>markText</code></a>).</dd>
-	 *         <dt><code><strong>insertLeft</strong>: boolean</code></dt><dd>By default, text typed
-	 *         when the cursor is on top of the bookmark will end up to the
-	 *         right of the bookmark. Set this option to true to make it go
-	 *         to the left instead.</dd>
-	 *         <dt><code><strong>shared</strong>: boolean</code></dt><dd>See
-	 *         the corresponding <a href="#mark_shared">option</a>
-	 *         to <code>markText</code>.</dd>
-	 *         <dt><code><strong>handleMouseEvents</strong>: boolean</code></dt>
-	 *         <dd>As with <a href="#markText"><code>markText</code></a>,
-	 *         this determines whether mouse events on the widget inserted
-	 *         for this bookmark are handled by CodeMirror. The default is
-	 *         false.</dd>
-	 *       </dl>
+	 *       The options argument is optional.
 	 */
-	function setBookmark(pos:{ line:Dynamic, ch:Dynamic }) : TextMarker;
+	function setBookmark(pos:{ line:Int, ch:Int }, ?options:BookmarkOptions) : TextMarker;
 	
 	/**
 	 * Returns an array of all the bookmarks and marked ranges
 	 *       found between the given positions.
 	 */
-	function findMarks(from:{ line:Dynamic, ch:Dynamic }, to:{ line:Dynamic, ch:Dynamic }) : Array<TextMarker>;
+	function findMarks(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }) : Array<TextMarker>;
 	
 	/**
 	 * Returns an array of all the bookmarks and marked ranges
 	 *       present at the given position.
 	 */
-	function findMarksAt(pos:{ line:Dynamic, ch:Dynamic }) : Array<TextMarker>;
+	function findMarksAt(pos:{ line:Int, ch:Int }) : Array<TextMarker>;
 	
 	/**
 	 * Returns an array containing all marked ranges in the document.
@@ -615,10 +523,10 @@ extern class Doc
 	 *       the returned object is clipped to start or end of the text
 	 *       respectively.
 	 */
-	function posFromIndex(index:Int) : { line:Dynamic, ch:Dynamic };
+	function posFromIndex(index:Int) : { line:Int, ch:Int };
 	
 	/**
 	 * The reverse of <a href="#posFromIndex"><code>posFromIndex</code></a>.
 	 */
-	function indexFromPos(object:{ line:Dynamic, ch:Dynamic }) : Int;
+	function indexFromPos(object:{ line:Int, ch:Int }) : Int;
 }

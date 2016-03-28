@@ -21,7 +21,7 @@ class MarkedRangeEvents
 	 *       and <code>to</code> give the part of the document that the range
 	 *       spanned when it was cleared.
 	 */
-	public static inline function on_clear(target:MarkedRange, callb:{ line:Dynamic, ch:Dynamic }->{ line:Dynamic, ch:Dynamic }->Void) : Dynamic return target.on("clear", callb);
+	public static inline function on_clear(target:MarkedRange, callb:{ line:Int, ch:Int }->{ line:Int, ch:Int }->Void) : Dynamic return target.on("clear", callb);
 	
 	/**
 	 * Fired when the last part of the marker is removed from the
