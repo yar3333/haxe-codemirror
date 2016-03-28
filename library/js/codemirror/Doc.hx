@@ -1,7 +1,7 @@
 package js.codemirror;
 
 @:native("CodeMirror.Doc")
-class Doc
+extern class Doc
 {
 	/**
 	 * Get the current editor content. You can pass it an optional
@@ -75,8 +75,6 @@ class Doc
 	 */
 	function getLineNumber(handle:LineHandle) : Int;
 	
-	function eachLine(f:(line: LineHandle)) : Void;
-	
 	/**
 	 * Iterate over the whole document, or if <code>start</code>
 	 *       and <code>end</code> line numbers are given, the range
@@ -88,7 +86,8 @@ class Doc
 	 *       a <code>text</code> property containing the line's content (as a
 	 *       string).
 	 */
-	function eachLine(start:Int, end:Int, f:(line: LineHandle)) : Void;
+	@:overload(function(f:LineHandle->Void):Void{})
+	function eachLine(start:Int, end:Int, f:LineHandle->Void) : Void;
 	
 	/**
 	 * Set the editor content as 'clean', a flag that it will
@@ -266,8 +265,8 @@ class Doc
 	 *       calls <a href="#extendSelections"><code>extendSelections</code></a>
 	 *       on the result.
 	 */
-	function extendSelectionsBy(f:{anchor->head}->{ line:Dynamic, ch:Dynamic }) : , ?options: object);
-	
+	function extendSelectionsBy(f:{ anchor:Dynamic, head:Dynamic }->{ line:Dynamic, ch:Dynamic }, ?options:Dynamic) : Void;
+
 	/**
 	 * Sets or clears the 'extending' flag, which acts similar to
 	 *       the shift key, in that it will cause cursor movement and calls
@@ -335,7 +334,7 @@ class Doc
 	 *       and a boolean indicating whether that document shares history
 	 *       with the target.
 	 */
-	function iterLinkedDocs(function:(doc: CodeMirror.Doc, sharedHist: boolean)) : Void;
+	function iterLinkedDocs(f:Doc->Bool->Void) : Void;
 	
 	/**
 	 * Undo one edit (if any undo events are stored).
@@ -535,7 +534,7 @@ class Doc
 	 *       elements). <code>class</code> should be the name of the class to
 	 *       apply.
 	 */
-	function addLineClass(line:haxe.extern.EitherType<Int, LineHandle>, where:String, class:String) : LineHandle;
+	function addLineClass(line:haxe.extern.EitherType<Int, LineHandle>, where:String, klass:String) : LineHandle;
 	
 	/**
 	 * Remove a CSS class from a line. <code>line</code> can be a
@@ -546,7 +545,7 @@ class Doc
 	 *       can be left off to remove all classes for the specified node, or
 	 *       be a string to remove only a specific class.
 	 */
-	function removeLineClass(line:haxe.extern.EitherType<Int, LineHandle>, where:String, class:String) : LineHandle;
+	function removeLineClass(line:haxe.extern.EitherType<Int, LineHandle>, where:String, klass:String) : LineHandle;
 	
 	/**
 	 * Adds a line widget, an element shown below a line, spanning
@@ -591,7 +590,7 @@ class Doc
 	 *           the height of the line that contains the widget.</dd>
 	 *         </dl>
 	 */
-	function addLineWidget(line:haxe.extern.EitherType<Int, LineHandle>, node:Element) : LineWidget;
+	function addLineWidget(line:haxe.extern.EitherType<Int, LineHandle>, node:js.html.Element) : LineWidget;
 	
 	/**
 	 * Gets the (outer) mode object for the editor. Note that this

@@ -101,7 +101,7 @@ typedef Config =
 	 *       character. By default, a red dot (<span style="color: red">•</span>)
 	 *       is shown, with a title tooltip to indicate the character code.
 	 */
-	var specialCharPlaceholder : String->Element;
+	var specialCharPlaceholder : String->js.html.Element;
 	
 	/**
 	 * Determines whether horizontal cursor movement through

@@ -27,13 +27,19 @@ class Types
 		
 		return switch (type)
 		{
-			case "(...args)": "Function";
+			case "fn(mode, CodeMirror)": "Dynamic->CodeMirror->Void";
+			case "(line: LineHandle)": "LineHandle->Void";
+			
+			case "() -> any": "Void->Dynamic";
+			case "(...args)", "function": "Function";
 			case "array": "Array";
 			case "string", "char": "String";
 			case "integer": "Int";
 			case "number": "Float";
 			case "boolean": "Bool";
 			case "object", "any": "Dynamic";
+			case "Element": "js.html.Element";
+			case "helper": "Helper";
 			case _:
 				if (type.startsWith("{") && type.endsWith("}"))
 				{

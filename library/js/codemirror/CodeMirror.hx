@@ -1,7 +1,10 @@
 package js.codemirror;
 
+import haxe.Constraints;
+import js.html.TextAreaElement;
+
 @:native("CodeMirror")
-class CodeMirror extends Doc
+extern class CodeMirror extends Doc
 {
 	/**
 	 * Tells you whether the editor currently has focus.
@@ -137,7 +140,7 @@ class CodeMirror extends Doc
 	 *       will be shown in the specified gutter next to the specified
 	 *       line.
 	 */
-	function setGutterMarker(line:haxe.extern.EitherType<Int, LineHandle>, gutterID:String, value:Element) : LineHandle;
+	function setGutterMarker(line:haxe.extern.EitherType<Int, LineHandle>, gutterID:String, value:js.html.Element) : LineHandle;
 	
 	/**
 	 * Remove all gutter markers in
@@ -167,7 +170,7 @@ class CodeMirror extends Doc
 	 *       widget again, simply use DOM methods (move it somewhere else, or
 	 *       call <code>removeChild</code> on its parent).
 	 */
-	function addWidget(pos:{ line:Dynamic, ch:Dynamic }, node:Element, scrollIntoView:Bool) : Void;
+	function addWidget(pos:{ line:Dynamic, ch:Dynamic }, node:js.html.Element, scrollIntoView:Bool) : Void;
 	
 	/**
 	 * Programmatically set the size of the editor (overriding the
@@ -355,13 +358,13 @@ class CodeMirror extends Doc
 	 *       strings). Failing that, the mode's <code>helperType</code>
 	 *       property and finally the mode's name are used.
 	 */
-	function getHelpers(pos:{ line:Dynamic, ch:Dynamic }, type:String) : Array<helper>;
+	function getHelpers(pos:{ line:Dynamic, ch:Dynamic }, type:String) : Array<Helper>;
 	
 	/**
 	 * Returns the first applicable helper value.
 	 *       See <a href="#getHelpers"><code>getHelpers</code></a>.
 	 */
-	function getHelper(pos:{ line:Dynamic, ch:Dynamic }, type:String) : helper;
+	function getHelper(pos:{ line:Dynamic, ch:Dynamic }, type:String) : Helper;
 	
 	/**
 	 * Returns the mode's parser state, if any, at the end of the
@@ -383,7 +386,7 @@ class CodeMirror extends Doc
 	 *       lot faster. The return value from this method will be the return
 	 *       value of your function.
 	 */
-	function operation(func:() -> any) : Dynamic;
+	function operation(func:Void->Dynamic) : Dynamic;
 	
 	/**
 	 * Adjust the indentation of the given line. The second
@@ -435,25 +438,25 @@ class CodeMirror extends Doc
 	 *       the <a href="#option_inputStyle"><code>inputStyle</code></a>
 	 *       option.
 	 */
-	function getInputField() : Element;
+	function getInputField() : js.html.Element;
 	
 	/**
 	 * Returns the DOM node that represents the editor, and
 	 *       controls its size. Remove this from your tree to delete an
 	 *       editor instance.
 	 */
-	function getWrapperElement() : Element;
+	function getWrapperElement() : js.html.Element;
 	
 	/**
 	 * Returns the DOM node that is responsible for the scrolling
 	 *       of the editor.
 	 */
-	function getScrollerElement() : Element;
+	function getScrollerElement() : js.html.Element;
 	
 	/**
 	 * Fetches the DOM node that contains the editor gutters.
 	 */
-	function getGutterElement() : Element;
+	function getGutterElement() : js.html.Element;
 	/**
 	 * The method provides another way to initialize an editor. It
 	 *         takes a textarea DOM node as first argument and an optional
@@ -510,7 +513,7 @@ class CodeMirror extends Doc
 	 *       (with the instance as argument) whenever a new CodeMirror instance
 	 *       is initialized.
 	 */
-	static function defineInitHook(func:function) : Void;
+	static function defineInitHook(func:Function) : Void;
 	
 	/**
 	 * Registers a helper value with the given <code>name</code> in
@@ -523,7 +526,7 @@ class CodeMirror extends Doc
 	 *       myFoo)</code>, the value <code>CodeMirror.hint.foo</code> will
 	 *       point to <code>myFoo</code>.
 	 */
-	static function registerHelper(type:String, name:String, value:helper) : Void;
+	static function registerHelper(type:String, name:String, value:Helper) : Void;
 	
 	/**
 	 * Acts
@@ -533,7 +536,7 @@ class CodeMirror extends Doc
 	 *       whenever the given <code>predicate</code> returns true when
 	 *       called with the local mode and editor.
 	 */
-	static function registerGlobalHelper(type:String, name:String, predicate:fn(mode, CodeMirror), value:helper) : Void;
+	static function registerGlobalHelper(type:String, name:String, predicate:Dynamic->CodeMirror->Void, value:Helper) : Void;
 	
 	/**
 	 * A constructor for the <code>{line, ch}</code> objects that

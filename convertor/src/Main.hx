@@ -256,7 +256,7 @@ class Main
 			  "package js.codemirror;\n"
 			+ "\n"
 			+ "@:native(\"CodeMirror.Doc\")\n"
-			+ "class Doc\n"
+			+ "extern class Doc\n"
 			+ "{\n"
 			+ options.filter.fn(_.name.startsWith("doc.")).map.fn(toExternMethodString(_)).join("\t\n")
 			+ "}\n"
@@ -268,7 +268,7 @@ class Main
 			  "package js.codemirror;\n"
 			+ "\n"
 			+ "@:native(\"CodeMirror\")\n"
-			+ "class CodeMirror extends Doc\n"
+			+ "extern class CodeMirror extends Doc\n"
 			+ "{\n"
 			+ options.filter.fn(_.name.startsWith("cm.")).map.fn(toExternMethodString(_)).join("\t\n")
 			+ options.filter.fn(_.name.startsWith("CodeMirror.")).map.fn(toExternMethodString(_, "static")).join("\t\n")
