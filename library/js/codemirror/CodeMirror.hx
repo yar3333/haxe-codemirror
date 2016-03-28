@@ -1,9 +1,9 @@
 package js.codemirror;
 
 import haxe.Constraints;
-import js.html.TextAreaElement;
-import js.html.Element;
 import haxe.extern.EitherType;
+import js.html.Element;
+import js.html.TextAreaElement;
 
 @:native("CodeMirror")
 extern class CodeMirror extends Doc

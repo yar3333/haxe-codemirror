@@ -74,6 +74,8 @@ class Main
 			destDir + "/Config.hx",
 			  "package js.codemirror;\n"
 			+ "\n"
+			+ "import js.html.Element;\n"
+			+ "\n"
 			+ "typedef Config =\n"
 			+ "{\n"
 			+ options.map.fn
@@ -145,6 +147,11 @@ class Main
 		(
 			destDir + "/" + className + ".hx",
 			  "package js.codemirror;\n"
+			+ "\n"
+			+ "import haxe.Constraints;\n"
+			+ "import haxe.extern.EitherType;\n"
+			+ "import js.html.Element;\n"
+			+ "import js.html.TextAreaElement;\n"
 			+ "\n"
 			+ "class " + className+"\n"
 			+ "{\n"
