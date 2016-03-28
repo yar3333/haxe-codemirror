@@ -40,6 +40,16 @@ class Types
 			case "object", "any": "Dynamic";
 			case "helper": "Helper";
 			case _:
+				if (type == "Dynamic")
+				{
+					type = switch (name)
+					{
+						case "ch": "Int";
+						case "line": "Int";
+						case _: "Dynamic";
+					}
+				}
+				
 				if (type.startsWith("{") && type.endsWith("}"))
 				{
 					return "{ " + Params.parseParams(type.substring(1, type.length - 1)).map.fn((_.type.optional ? "?" : "") + _.name + ":" + _.type.name).join(", ") + " }";

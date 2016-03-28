@@ -1,5 +1,7 @@
 package js.codemirror;
 
+import js.html.Element;
+
 class EditorEvents
 {
 	/**
@@ -173,7 +175,7 @@ class EditorEvents
 	 *       the resulting element, or add event handlers, but
 	 *       should <em>not</em> try to change the state of the editor.
 	 */
-	public static inline function on_renderLine(target:Editor, callb:CodeMirror->LineHandle->js.html.Element->Void) : Dynamic return target.on("renderLine", callb);
+	public static inline function on_renderLine(target:Editor, callb:CodeMirror->LineHandle->Element->Void) : Dynamic return target.on("renderLine", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.

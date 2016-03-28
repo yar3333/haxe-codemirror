@@ -79,7 +79,7 @@ class Main
 			+ options.map.fn
 			(
 				  Comments.makeComment(_.desc)
-				+ "\t" + (_.type.optional ? "@:optional " : "") + "var " + _.name + " : " + _.type.name + ";\n"
+				+ "\t" + "@:optional var " + _.name + " : " + _.type.name + ";\n"
 			).join("\t\n")
 			+ "}\n"
 		);
@@ -171,15 +171,6 @@ class Main
 		
 		var dtNodes = [];
 		var ddNodes = [];
-		
-		for (node in doc.find(">root>*"))
-		{
-			Log.echo("NODE " + node.name + " " + node.attributes);
-			for (node in node.children)
-			{
-				Log.echo("\tNODE " + node.name + " " + node.attributes);
-			}
-		}
 		
 		var dlNodes = doc.find(">root>dl");
 		Debug.assert(dlNodes.length == 11, "dlNodes.length = " + dlNodes.length);

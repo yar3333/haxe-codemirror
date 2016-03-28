@@ -1,5 +1,7 @@
 package js.codemirror;
 
+import js.html.Element;
+
 typedef Config =
 {
 	/**
@@ -101,7 +103,7 @@ typedef Config =
 	 *       character. By default, a red dot (<span style="color: red">•</span>)
 	 *       is shown, with a title tooltip to indicate the character code.
 	 */
-	@:optional var specialCharPlaceholder : String->js.html.Element;
+	@:optional var specialCharPlaceholder : String->Element;
 	
 	/**
 	 * Determines whether horizontal cursor movement through

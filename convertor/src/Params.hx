@@ -20,14 +20,14 @@ class Params
 		
 		var ID = "[_a-z][_a-z0-9]*";
 		
-		var reName = new EReg("^" + ID, "i");
+		var reName = new EReg("^([?]?)\\s*(" + ID + ")", "i");
 		
 		if (reName.match(s))
 		{
 			s = reName.matchedRight();
 			
-			var name = reName.matched(0);
-			var type = { name:"Dynamic", optional:false };
+			var name = reName.matched(2);
+			var type = { name:"Dynamic", optional:reName.matched(1) == "?" };
 			
 			var reTypePref = new EReg("^\\s*[:]\\s*", "i");
 			if (reTypePref.match(s))
