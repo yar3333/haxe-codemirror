@@ -1,5 +1,10 @@
 package js.codemirror;
 
+import haxe.Constraints;
+import haxe.extern.EitherType;
+import js.html.Element;
+import js.html.TextAreaElement;
+
 @:native("CodeMirror.Doc")
 extern class Doc
 {
@@ -8,7 +13,7 @@ extern class Doc
 	 *       argument to specify the string to be used to separate lines
 	 *       (defaults to <code>"\n"</code>).
 	 */
-	function getValue() : String;
+	function getValue(?separator:String) : String;
 	
 	/**
 	 * Set the editor content.
@@ -21,7 +26,7 @@ extern class Doc
 	 *       argument can be given to indicate the line separator string to
 	 *       use (defaults to <code>"\n"</code>).
 	 */
-	function getRange(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }) : String;
+	function getRange(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }, ?separator:String) : String;
 	
 	/**
 	 * Replace the part of the document between <code>from</code>
@@ -35,7 +40,7 @@ extern class Doc
 	 *       can be merged with previous history events, in the way described
 	 *       for <a href="#selection_origin">selection origins</a>.
 	 */
-	function replaceRange(replacement:String, from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }) : Void;
+	function replaceRange(replacement:String, from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }, ?origin:String) : Void;
 	
 	/**
 	 * Get the content of line <code>n</code>.
@@ -109,7 +114,7 @@ extern class Doc
 	 *       changes (rapid typing or deleting events are typically
 	 *       combined).
 	 */
-	function changeGeneration() : Int;
+	function changeGeneration(?closeEvent:Bool) : Int;
 	
 	/**
 	 * Returns whether the document is currently clean — not
@@ -119,7 +124,7 @@ extern class Doc
 	 *       to <a href="#changeGeneration"><code>changeGeneration</code></a>
 	 *       if a generation value is given.
 	 */
-	function isClean() : Bool;
+	function isClean(?generation:Int) : Bool;
 	
 	/**
 	 * Get the currently selected code. Optionally pass a line
@@ -127,13 +132,13 @@ extern class Doc
 	 *       selections are present, they are concatenated with instances
 	 *       of <code>lineSep</code> in between.
 	 */
-	function getSelection() : String;
+	function getSelection(?lineSep:String) : String;
 	
 	/**
 	 * Returns an array containing a string for each selection,
 	 *       representing the content of the selections.
 	 */
-	function getSelections() : String;
+	function getSelections(?lineSep:String) : String;
 	
 	/**
 	 * Replace the selection(s) with the given string. By default,
@@ -143,7 +148,7 @@ extern class Doc
 	 *       selected, passing <code>"start"</code> will collapse the
 	 *       selection to the start of the inserted text.
 	 */
-	function replaceSelection(replacement:String) : Void;
+	function replaceSelection(replacement:String, ?select:String) : Void;
 	
 	/**
 	 * The length of the given array should be the same as the
@@ -152,7 +157,7 @@ extern class Doc
 	 *       The <code>select</code> argument works the same as
 	 *       in <a href="#replaceSelection"><code>replaceSelection</code></a>.
 	 */
-	function replaceSelections(replacements:Array<String>) : Void;
+	function replaceSelections(replacements:Array<String>, ?select:String) : Void;
 	
 	/**
 	 * Retrieve one end of the <em>primary</em>
@@ -165,7 +170,7 @@ extern class Doc
 	 *       passing <code>"head"</code>. A <code>{line, ch}</code> object
 	 *       will be returned.
 	 */
-	function getCursor() : { line:Int, ch:Int };
+	function getCursor(?start:String) : { line:Int, ch:Int };
 	
 	/**
 	 * Retrieves a list of all current selections. These will
@@ -219,7 +224,7 @@ extern class Doc
 	 *         stuck.</dd>
 	 *       </dl>
 	 */
-	function setSelection(anchor:{ line:Int, ch:Int }) : Void;
+	function setSelection(anchor:{ line:Int, ch:Int }, ?head:{ line:Int, ch:Int }, ?options:Dynamic) : Void;
 	
 	/**
 	 * Sets a new set of selections. There must be at least one
@@ -230,13 +235,13 @@ extern class Doc
 	 *       had less ranges than the new one. Supports the same options
 	 *       as <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function setSelections(ranges:Array<{ anchor:Dynamic, head:Dynamic }>) : Void;
+	function setSelections(ranges:Array<{ anchor:Dynamic, head:Dynamic }>, ?primary:Int, ?options:Dynamic) : Void;
 	
 	/**
 	 * Adds a new selection to the existing set of selections, and
 	 *       makes it the primary selection.
 	 */
-	function addSelection(anchor:{ line:Int, ch:Int }) : Void;
+	function addSelection(anchor:{ line:Int, ch:Int }, ?head:{ line:Int, ch:Int }) : Void;
 	
 	/**
 	 * Similar
@@ -251,14 +256,14 @@ extern class Doc
 	 *       the primary selection will be dropped by this method.
 	 *       Supports the same options as <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function extendSelection(from:{ line:Int, ch:Int }) : Void;
+	function extendSelection(from:{ line:Int, ch:Int }, ?to:{ line:Int, ch:Int }, ?options:Dynamic) : Void;
 	
 	/**
 	 * An equivalent
 	 *       of <a href="#extendSelection"><code>extendSelection</code></a>
 	 *       that acts on all selections at once.
 	 */
-	function extendSelections(heads:Array<{ line:Int, ch:Int }>) : Void;
+	function extendSelections(heads:Array<{ line:Int, ch:Int }>, ?options:Dynamic) : Void;
 	
 	/**
 	 * Applies the given function to all existing selections, and
@@ -498,7 +503,7 @@ extern class Doc
 	 *           the height of the line that contains the widget.</dd>
 	 *         </dl>
 	 */
-	function addLineWidget(line:haxe.extern.EitherType<Int, LineHandle>, node:js.html.Element) : LineWidget;
+	function addLineWidget(line:EitherType<Int, LineHandle>, node:Element, ?options:Dynamic) : LineWidget;
 	
 	/**
 	 * Gets the (outer) mode object for the editor. Note that this

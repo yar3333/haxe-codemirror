@@ -1,5 +1,10 @@
 package js.codemirror;
 
+import haxe.Constraints;
+import haxe.extern.EitherType;
+import js.html.Element;
+import js.html.TextAreaElement;
+
 class LineEvents
 {
 	/**

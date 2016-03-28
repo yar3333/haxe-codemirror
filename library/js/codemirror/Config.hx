@@ -1,5 +1,6 @@
 package js.codemirror;
 
+import haxe.extern.EitherType;
 import js.html.Element;
 
 typedef Config =
@@ -8,7 +9,7 @@ typedef Config =
 	 * The starting value of the editor. Can be a string, or
 	 *       a <a href="#api_doc">document object</a>.
 	 */
-	@:optional var value : haxe.extern.EitherType<String, Doc>;
+	@:optional var value : EitherType<String, Doc>;
 	
 	/**
 	 * The mode to use. When not given, this will default to the
@@ -27,7 +28,7 @@ typedef Config =
 	 *       mode names to their constructors, and the second maps MIME types
 	 *       to mode specs.
 	 */
-	@:optional var mode : haxe.extern.EitherType<String, Dynamic>;
+	@:optional var mode : EitherType<String, Dynamic>;
 	
 	/**
 	 * Explicitly set the line separator for the editor. By default
@@ -215,7 +216,7 @@ typedef Config =
 	 *       simply <code>true</code>), focusing of the editor is also
 	 *       disallowed.
 	 */
-	@:optional var readOnly : haxe.extern.EitherType<Bool, String>;
+	@:optional var readOnly : EitherType<Bool, String>;
 	
 	/**
 	 * Whether the cursor should be drawn when a selection is

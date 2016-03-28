@@ -74,6 +74,7 @@ class Main
 			destDir + "/Config.hx",
 			  "package js.codemirror;\n"
 			+ "\n"
+			+ "import haxe.extern.EitherType;\n"
 			+ "import js.html.Element;\n"
 			+ "\n"
 			+ "typedef Config =\n"

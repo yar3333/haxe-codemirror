@@ -32,7 +32,7 @@ extern class CodeMirror extends Doc
 	 *       document, the returned value will have a <code>hitSide</code>
 	 *       property set to true.
 	 */
-	function findPosH(start:{ line:Int, ch:Int }, amount:Int, unit:String, visually:Bool) : { line:Int, ch:Int };
+	function findPosH(start:{ line:Int, ch:Int }, amount:Int, unit:String, visually:Bool) : { line:Int, ch:Int, ?hitSide:Bool };
 	
 	/**
 	 * Similar to <a href="#findPosH"><code>findPosH</code></a>,
@@ -41,7 +41,7 @@ extern class CodeMirror extends Doc
 	 *       arguments and the returned value have the same interpretation as
 	 *       they have in <code>findPosH</code>.
 	 */
-	function findPosV(start:{ line:Int, ch:Int }, amount:Int, unit:String) : { line:Int, ch:Int };
+	function findPosV(start:{ line:Int, ch:Int }, amount:Int, unit:String) : { line:Int, ch:Int, ?hitSide:Bool };
 	
 	/**
 	 * Returns the start and end of the 'word' (the stretch of
@@ -102,7 +102,7 @@ extern class CodeMirror extends Doc
 	 *       override the styling of the base mode entirely, instead of the
 	 *       two being applied together.
 	 */
-	function addOverlay(mode:EitherType<String, Dynamic>) : Void;
+	function addOverlay(mode:EitherType<String, Dynamic>, ?options:Dynamic) : Void;
 	
 	/**
 	 * Pass this the exact value passed for the <code>mode</code>
@@ -243,7 +243,7 @@ extern class CodeMirror extends Doc
 	 *       position that the cursor would have when it would sit at that
 	 *       position.
 	 */
-	function charCoords(pos:{ line:Int, ch:Int }) : { left:Dynamic, right:Dynamic, top:Dynamic, bottom:Dynamic };
+	function charCoords(pos:{ line:Int, ch:Int }, ?mode:String) : { left:Dynamic, right:Dynamic, top:Dynamic, bottom:Dynamic };
 	
 	/**
 	 * Given an <code>{left, top}</code> object, returns
@@ -253,7 +253,7 @@ extern class CodeMirror extends Doc
 	 *       be <code>"window"</code>, <code>"page"</code> (the default),
 	 *       or <code>"local"</code>.
 	 */
-	function coordsChar(object:{ left:Dynamic, top:Dynamic }) : { line:Int, ch:Int };
+	function coordsChar(object:{ left:Dynamic, top:Dynamic }, ?mode:String) : { line:Int, ch:Int };
 	
 	/**
 	 * Computes the line at the given pixel
@@ -261,7 +261,7 @@ extern class CodeMirror extends Doc
 	 *       that <a href="#coordsChar"><code>coordsChar</code></a>
 	 *       accepts.
 	 */
-	function lineAtHeight(height:Float) : Float;
+	function lineAtHeight(height:Float, ?mode:String) : Float;
 	
 	/**
 	 * Computes the height of the top of a line, in the coordinate
@@ -271,7 +271,7 @@ extern class CodeMirror extends Doc
 	 *       the document is specified, the returned value is the bottom of
 	 *       the last line in the document.
 	 */
-	function heightAtLine(line:EitherType<Int, LineHandle>) : Float;
+	function heightAtLine(line:EitherType<Int, LineHandle>, ?mode:String) : Float;
 	
 	/**
 	 * Returns the line height of the default font for the editor.
@@ -321,7 +321,7 @@ extern class CodeMirror extends Doc
 	 *       not specified, the token will use cached state information, which will be faster but might not be accurate if
 	 *       edits were recently made and highlighting has not yet completed.
 	 */
-	function getTokenAt(pos:{ line:Int, ch:Int }) : Token;
+	function getTokenAt(pos:{ line:Int, ch:Int }, ?precise:Bool) : Token;
 	
 	/**
 	 * This is similar
@@ -330,7 +330,7 @@ extern class CodeMirror extends Doc
 	 *       cheaper than repeatedly calling <code>getTokenAt</code>, which
 	 *       re-parses the part of the line before the token for every call.
 	 */
-	function getLineTokens(line:Int) : Array<{ start:Dynamic, end:Dynamic, string:Dynamic, type:Dynamic, state:Dynamic }>;
+	function getLineTokens(line:Int, ?precise:Bool) : Array<{ start:Dynamic, end:Dynamic, string:Dynamic, type:Dynamic, state:Dynamic }>;
 	
 	/**
 	 * This is a (much) cheaper version
@@ -500,7 +500,7 @@ extern class CodeMirror extends Doc
 	 *       and whenever the option is modified
 	 *       through <a href="#setOption"><code>setOption</code></a>.
 	 */
-	static function defineOption(name:String) : Void;
+	static function defineOption(name:String, default:Dynamic, updateFunc:Function) : Void;
 	
 	/**
 	 * If your extension just needs to run some
