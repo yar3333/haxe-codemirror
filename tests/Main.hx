@@ -1,6 +1,6 @@
 package js;
 
-import js.CodeMirror;
+import js.codemirror.*;
 
 class Main
 {

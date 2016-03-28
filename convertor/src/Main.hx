@@ -255,6 +255,7 @@ class Main
 			destDir + "/Doc.hx",
 			  "package js.codemirror;\n"
 			+ "\n"
+			+ "@:native(\"CodeMirror.Doc\")\n"
 			+ "class Doc\n"
 			+ "{\n"
 			+ options.filter.fn(_.name.startsWith("doc.")).map.fn(toExternMethodString(_)).join("\t\n")
@@ -266,6 +267,7 @@ class Main
 			destDir + "/CodeMirror.hx",
 			  "package js.codemirror;\n"
 			+ "\n"
+			+ "@:native(\"CodeMirror\")\n"
 			+ "class CodeMirror extends Doc\n"
 			+ "{\n"
 			+ options.filter.fn(_.name.startsWith("cm.")).map.fn(toExternMethodString(_)).join("\t\n")

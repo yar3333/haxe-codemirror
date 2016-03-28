@@ -1,5 +1,6 @@
 package js.codemirror;
 
+@:native("CodeMirror")
 class CodeMirror extends Doc
 {
 	/**
