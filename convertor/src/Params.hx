@@ -13,9 +13,9 @@ class Params
 		return Types.toHaxeTypeTrivial("", s.trim());
 	}
 	
-	public static function parseParams(s:String) : Array<{ name:String, type:{ name:String, optional:Bool} }>
+	public static function parseParams(s:String) : Array<Param>
 	{
-		s = s.ltrim(", ");
+		s = s.trim(", ");
 		if (s == "") return [];
 		
 		var ID = "[_a-z][_a-z0-9]*";
@@ -66,5 +66,10 @@ class Params
 		}
 		
 		return [];
+	}
+	
+	public static function toString(params:Array<Param>) : String
+	{
+		return params.map.fn((_.type.optional ? "?" : "") + _.name + ":" + _.type.name).join(", ");
 	}
 }

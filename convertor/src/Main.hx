@@ -21,6 +21,7 @@ class Main
 		
 		processConfig("bin/config.json", destDir);
 		processEvents("bin/events.json", destDir);
+		processApi("bin/api.json", destDir);
 	}
 	
 	static function jsonToHtml(jsonFile:String) : String
@@ -158,5 +159,127 @@ class Main
 		);
 		
 		Log.finishSuccess();
+	}
+	
+	static function processApi(jsonFile:String, destDir:String)
+	{
+		Log.start("API");
+		
+		var doc = new HtmlDocument("<root>" + jsonToHtml(jsonFile) + "</root>", true);
+		
+		var options = [];
+		
+		var dtNodes = [];
+		var ddNodes = [];
+		
+		for (node in doc.find(">root>*"))
+		{
+			Log.echo("NODE " + node.name + " " + node.attributes);
+			for (node in node.children)
+			{
+				Log.echo("\tNODE " + node.name + " " + node.attributes);
+			}
+		}
+		
+		var dlNodes = doc.find(">root>dl");
+		Debug.assert(dlNodes.length == 11, "dlNodes.length = " + dlNodes.length);
+		
+		for (dlNode in dlNodes)
+		{
+			var i = 0; while (i < dlNode.children.length)
+			{
+				if (dlNode.children[i].name == "dt")
+				{
+					dtNodes.push(dlNode.children[i]);
+					if (i + 1 < dlNode.children.length && dlNode.children[i + 1].name == "dd")
+					{
+						i++;
+						ddNodes.push(dlNode.children[i]);
+					}
+					else
+					{
+						ddNodes.push(new HtmlNodeElement("dd", []));
+					}
+				}
+				i++;
+			}
+		}
+		
+		Debug.assert(dtNodes.length == ddNodes.length, "dtNodes.length = " + dtNodes.length + " <> ddNodes.length = " + ddNodes.length);
+		
+		var i = 0; while (i < dtNodes.length)
+		{
+			var dt = dtNodes[i];
+			var dd = ddNodes[i];
+			
+			var defs = dt.find(">code");
+			if (defs.length > 0)
+			{
+				var def = Utf8Tools.fix(defs[0].innerText.trim());
+				
+				var reFuncName = ~/^([a-z_][_a-z0-9]*[.][a-z_][_a-z0-9]*)\s*[(]/i;
+				if (reFuncName.match(def))
+				{
+					var name = reFuncName.matched(1);
+					var startParams = reFuncName.matchedPos().len;
+					var endParams = ParserTools.findPairBracket(def, startParams - 1);
+					Debug.assert(endParams > 0);
+					var params = def.substring(startParams, endParams);
+					
+					var retType = def.substring(endParams + 1).trim();
+					if (retType.startsWith("->")) retType = retType.substring("->".length);
+					
+					var option =
+					{
+						name: name,
+						params: Params.parseParams(params),
+						retType: Types.toHaxeType(name, retType != "" ? retType : "Void"),
+						desc: dd.innerHTML.trim()
+					};
+					
+					options.push(option);
+					
+					Log.echo(option.name);
+				}
+				else
+				{
+					Log.echo("ERROR parsing '" + def + "'");
+				}
+			}
+			
+			i++;
+		}
+		
+		File.saveContent
+		(
+			destDir + "/Doc.hx",
+			  "package js.codemirror;\n"
+			+ "\n"
+			+ "class Doc\n"
+			+ "{\n"
+			+ options.filter.fn(_.name.startsWith("doc.")).map.fn(toExternMethodString(_)).join("\t\n")
+			+ "}\n"
+		);
+		
+		File.saveContent
+		(
+			destDir + "/CodeMirror.hx",
+			  "package js.codemirror;\n"
+			+ "\n"
+			+ "class CodeMirror extends Doc\n"
+			+ "{\n"
+			+ options.filter.fn(_.name.startsWith("cm.")).map.fn(toExternMethodString(_)).join("\t\n")
+			+ options.filter.fn(_.name.startsWith("CodeMirror.")).map.fn(toExternMethodString(_, "static")).join("\t\n")
+			+ "}\n"
+		);
+		
+		Log.finishSuccess();
+	}
+	
+	static function toExternMethodString(m:Method, prefix="") : String
+	{
+		return Comments.makeComment(m.desc)
+			 + "\t" + (prefix != "" ? prefix + " " : "")
+			 + "function " + m.name.split(".")[1] + "(" + Params.toString(m.params) + ") : " + m.retType.name + ";\n";
 	}
 }

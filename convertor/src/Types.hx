@@ -3,7 +3,7 @@ using stdlib.StringTools;
 
 class Types
 {
-	public static function toHaxeType(name:String, type:String) : { name:String, optional:Bool }
+	public static function toHaxeType(name:String, type:String) : HaxeType
 	{
 		var types = type.split("|").map(std.StringTools.trim).filter.fn(_ != "");
 		var optional = types.has("null");
@@ -20,20 +20,26 @@ class Types
 	
 	public static function toHaxeTypeTrivial(name:String, type:String) : String
 	{
-		type = type.replace(String.fromCharCode(0xC2) + String.fromCharCode(0xA0), " ");
-		type = type.replace(String.fromCharCode(0xE2) + String.fromCharCode(0x86) + String.fromCharCode(0x92), "->");
+		type = Utf8Tools.fix(type);
+		type = type.trim();
 		
 		if (type.startsWith("CodeMirror.")) type = type.substring("CodeMirror.".length);
 		
 		return switch (type)
 		{
+			case "(...args)": "Function";
 			case "array": "Array";
 			case "string", "char": "String";
 			case "integer": "Int";
 			case "number": "Float";
 			case "boolean": "Bool";
-			case "object": "Dynamic";
+			case "object", "any": "Dynamic";
 			case _:
+				if (type.startsWith("{") && type.endsWith("}"))
+				{
+					return "{ " + Params.parseParams(type.substring(1, type.length - 1)).map.fn((_.type.optional ? "?" : "") + _.name + ":" + _.type.name).join(", ") + " }";
+				}
+				
 				if (type.indexOf("<") >= 0)
 				{
 					type = ~/[_a-z][_a-z0-9]*/ig.map(type, function(re) return toHaxeTypeTrivial("", re.matched(0)));

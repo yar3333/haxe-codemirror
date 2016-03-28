@@ -11,11 +11,11 @@ class ParserTools
 		"{" => "}"
 	];
 	
-	public static function findPairBracket(s:String) : Int
+	public static function findPairBracket(s:String, start=0) : Int
 	{
-		var stack = [ brackets.get(s.substring(0, 1)) ];
+		var stack = [ brackets.get(s.substr(start, 1)) ];
 		
-		for (i in 1...s.length)
+		for (i in (start + 1)...s.length)
 		{
 			var ch = s.charAt(i);
 			
@@ -36,15 +36,15 @@ class ParserTools
 		return -1;
 	}
 	
-	public static function findCharInThisScope(s:String, need:String) : Int
+	public static function findCharInThisScope(s:String, need:String, start=0) : Int
 	{
 		var stack = [];
 		
-		for (i in 0...s.length)
+		for (i in start...s.length)
 		{
 			var ch = s.charAt(i);
 			
-			if (ch == need && stack.length == 0) return i;
+			if (need.indexOf(ch) >= 0  && stack.length == 0) return i;
 			
 			if (brackets.exists(ch))
 			{
