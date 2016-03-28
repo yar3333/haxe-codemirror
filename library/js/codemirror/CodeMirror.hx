@@ -2,10 +2,13 @@ package js.codemirror;
 
 import haxe.Constraints;
 import js.html.TextAreaElement;
+import js.html.Element;
 
 @:native("CodeMirror")
 extern class CodeMirror extends Doc
 {
+	function new(place:Element, ?options:Config) : Void;
+	
 	/**
 	 * Tells you whether the editor currently has focus.
 	 */
@@ -140,7 +143,7 @@ extern class CodeMirror extends Doc
 	 *       will be shown in the specified gutter next to the specified
 	 *       line.
 	 */
-	function setGutterMarker(line:haxe.extern.EitherType<Int, LineHandle>, gutterID:String, value:js.html.Element) : LineHandle;
+	function setGutterMarker(line:haxe.extern.EitherType<Int, LineHandle>, gutterID:String, value:Element) : LineHandle;
 	
 	/**
 	 * Remove all gutter markers in
@@ -170,7 +173,7 @@ extern class CodeMirror extends Doc
 	 *       widget again, simply use DOM methods (move it somewhere else, or
 	 *       call <code>removeChild</code> on its parent).
 	 */
-	function addWidget(pos:{ line:Int, ch:Int }, node:js.html.Element, scrollIntoView:Bool) : Void;
+	function addWidget(pos:{ line:Int, ch:Int }, node:Element, scrollIntoView:Bool) : Void;
 	
 	/**
 	 * Programmatically set the size of the editor (overriding the
@@ -428,25 +431,25 @@ extern class CodeMirror extends Doc
 	 *       the <a href="#option_inputStyle"><code>inputStyle</code></a>
 	 *       option.
 	 */
-	function getInputField() : js.html.Element;
+	function getInputField() : Element;
 	
 	/**
 	 * Returns the DOM node that represents the editor, and
 	 *       controls its size. Remove this from your tree to delete an
 	 *       editor instance.
 	 */
-	function getWrapperElement() : js.html.Element;
+	function getWrapperElement() : Element;
 	
 	/**
 	 * Returns the DOM node that is responsible for the scrolling
 	 *       of the editor.
 	 */
-	function getScrollerElement() : js.html.Element;
+	function getScrollerElement() : Element;
 	
 	/**
 	 * Fetches the DOM node that contains the editor gutters.
 	 */
-	function getGutterElement() : js.html.Element;
+	function getGutterElement() : Element;
 	/**
 	 * The method provides another way to initialize an editor. It
 	 *         takes a textarea DOM node as first argument and an optional

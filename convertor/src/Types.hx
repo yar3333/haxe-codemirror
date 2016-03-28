@@ -38,7 +38,6 @@ class Types
 			case "number": "Float";
 			case "boolean": "Bool";
 			case "object", "any": "Dynamic";
-			case "Element": "js.html.Element";
 			case "helper": "Helper";
 			case _:
 				if (type.startsWith("{") && type.endsWith("}"))
