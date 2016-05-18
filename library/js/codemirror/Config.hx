@@ -95,7 +95,7 @@ typedef Config =
 	 *       Mostly useful for non-printing special characters. The default
 	 *       is <code>/[\u0000-\u0019\u00ad\u200b-\u200f\u2028\u2029\ufeff]/</code>.
 	 */
-	@:optional var specialChars : RegExp;
+	@:optional var specialChars : Dynamic; //RegExp;
 	
 	/**
 	 * A function that, given a special character identified by
