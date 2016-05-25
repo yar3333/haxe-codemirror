@@ -355,5 +355,5 @@ typedef Config =
 	 *       This <em>will</em> have bad effects on performance of big
 	 *       documents.
 	 */
-	@:optional var viewportMargin : Int;
+	@:optional var viewportMargin : Float;
 }
