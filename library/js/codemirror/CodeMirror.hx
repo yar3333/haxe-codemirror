@@ -11,6 +11,8 @@ extern class CodeMirror extends Doc
 	static var version : String;
 	static var defaults : Config;
 	
+	static var commands(default, null) : Dynamic<CodeMirror->Void>;
+	
 	function new(place:Element, ?options:Config) : Void;
 	
 	/**
@@ -32,7 +34,7 @@ extern class CodeMirror extends Doc
 	 *       document, the returned value will have a <code>hitSide</code>
 	 *       property set to true.
 	 */
-	function findPosH(start:{ line:Int, ch:Int }, amount:Int, unit:String, visually:Bool) : { line:Int, ch:Int, ?hitSide:Bool };
+	function findPosH(start:Position, amount:Int, unit:String, visually:Bool) : { line:Int, ch:Int, ?hitSide:Bool };
 	
 	/**
 	 * Similar to <a href="#findPosH"><code>findPosH</code></a>,
@@ -41,13 +43,13 @@ extern class CodeMirror extends Doc
 	 *       arguments and the returned value have the same interpretation as
 	 *       they have in <code>findPosH</code>.
 	 */
-	function findPosV(start:{ line:Int, ch:Int }, amount:Int, unit:String) : { line:Int, ch:Int, ?hitSide:Bool };
+	function findPosV(start:Position, amount:Int, unit:String) : { line:Int, ch:Int, ?hitSide:Bool };
 	
 	/**
 	 * Returns the start and end of the 'word' (the stretch of
 	 *       letters, whitespace, or punctuation) at the given position.
 	 */
-	function findWordAt(pos:{ line:Int, ch:Int }) : { anchor:{ line:Int, ch:Int }, head:{ line:Int, ch:Int } };
+	function findWordAt(pos:Position) : { anchor:Position, head:Position };
 	
 	/**
 	 * Change the configuration of the editor. <code>option</code>
@@ -177,7 +179,7 @@ extern class CodeMirror extends Doc
 	 *       widget again, simply use DOM methods (move it somewhere else, or
 	 *       call <code>removeChild</code> on its parent).
 	 */
-	function addWidget(pos:{ line:Int, ch:Int }, node:Element, scrollIntoView:Bool) : Void;
+	function addWidget(pos:Position, node:Element, scrollIntoView:Bool) : Void;
 	
 	/**
 	 * Programmatically set the size of the editor (overriding the
@@ -216,7 +218,7 @@ extern class CodeMirror extends Doc
 	 *       indicates the amount of vertical pixels around the given area
 	 *       that should be made visible as well.
 	 */
-	function scrollIntoView(what:{ line:Int, ch:Int }) : Void;
+	function scrollIntoView(what:Position) : Void;
 	
 	/**
 	 * Returns an <code>{left, top, bottom}</code> object
@@ -233,7 +235,7 @@ extern class CodeMirror extends Doc
 	 *       ch}</code> object is given, it specifies the precise position at
 	 *       which you want to measure.
 	 */
-	function cursorCoords(where:EitherType<Bool, { line:Int, ch:Int }>, mode:String) : { left:Dynamic, top:Dynamic, bottom:Dynamic };
+	function cursorCoords(where:EitherType<Bool, Position>, mode:String) : { left:Dynamic, top:Dynamic, bottom:Dynamic };
 	
 	/**
 	 * Returns the position and dimensions of an arbitrary
@@ -243,7 +245,7 @@ extern class CodeMirror extends Doc
 	 *       position that the cursor would have when it would sit at that
 	 *       position.
 	 */
-	function charCoords(pos:{ line:Int, ch:Int }, ?mode:String) : { left:Dynamic, right:Dynamic, top:Dynamic, bottom:Dynamic };
+	function charCoords(pos:Position, ?mode:String) : { left:Dynamic, right:Dynamic, top:Dynamic, bottom:Dynamic };
 	
 	/**
 	 * Given an <code>{left, top}</code> object, returns
@@ -253,7 +255,7 @@ extern class CodeMirror extends Doc
 	 *       be <code>"window"</code>, <code>"page"</code> (the default),
 	 *       or <code>"local"</code>.
 	 */
-	function coordsChar(object:{ left:Dynamic, top:Dynamic }, ?mode:String) : { line:Int, ch:Int };
+	function coordsChar(object:{ left:Dynamic, top:Dynamic }, ?mode:String) : Position;
 	
 	/**
 	 * Computes the line at the given pixel
@@ -312,7 +314,7 @@ extern class CodeMirror extends Doc
 	 *       simple modes, but will return an inner mode for nesting modes
 	 *       (such as <code>htmlmixed</code>).
 	 */
-	function getModeAt(pos:{ line:Int, ch:Int }) : Dynamic;
+	function getModeAt(pos:Position) : Dynamic;
 	
 	/**
 	 * Retrieves information about the token the current mode found
@@ -321,7 +323,7 @@ extern class CodeMirror extends Doc
 	 *       not specified, the token will use cached state information, which will be faster but might not be accurate if
 	 *       edits were recently made and highlighting has not yet completed.
 	 */
-	function getTokenAt(pos:{ line:Int, ch:Int }, ?precise:Bool) : Token;
+	function getTokenAt(pos:Position, ?precise:Bool) : Token;
 	
 	/**
 	 * This is similar
@@ -340,7 +342,7 @@ extern class CodeMirror extends Doc
 	 *       unstyled tokens, and a string, potentially containing multiple
 	 *       space-separated style names, otherwise.
 	 */
-	function getTokenTypeAt(pos:{ line:Int, ch:Int }) : String;
+	function getTokenTypeAt(pos:Position) : String;
 	
 	/**
 	 * Fetch the set of applicable helper values for the given
@@ -355,13 +357,13 @@ extern class CodeMirror extends Doc
 	 *       strings). Failing that, the mode's <code>helperType</code>
 	 *       property and finally the mode's name are used.
 	 */
-	function getHelpers(pos:{ line:Int, ch:Int }, type:String) : Array<Helper>;
+	function getHelpers(pos:Position, type:String) : Array<Helper>;
 	
 	/**
 	 * Returns the first applicable helper value.
 	 *       See <a href="#getHelpers"><code>getHelpers</code></a>.
 	 */
-	function getHelper(pos:{ line:Int, ch:Int }, type:String) : Helper;
+	function getHelper(pos:Position, type:String) : Helper;
 	
 	/**
 	 * Returns the mode's parser state, if any, at the end of the
@@ -454,6 +456,7 @@ extern class CodeMirror extends Doc
 	 * Fetches the DOM node that contains the editor gutters.
 	 */
 	function getGutterElement() : Element;
+	
 	/**
 	 * The method provides another way to initialize an editor. It
 	 *         takes a textarea DOM node as first argument and an optional
@@ -549,5 +552,5 @@ extern class CodeMirror extends Doc
 	 *       returned position will be the end of the changed
 	 *       range, <em>after</em> the change is applied.
 	 */
-	static function changeEnd(change:Dynamic) : { line:Int, ch:Int };
+	static function changeEnd(change:Dynamic) : Position;
 }

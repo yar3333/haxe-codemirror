@@ -356,4 +356,6 @@ typedef Config =
 	 *       documents.
 	 */
 	@:optional var viewportMargin : Float;
+	
+	@:optional var hintOptions : js.codemirror.addons.ShowHint.HintOptions;
 }

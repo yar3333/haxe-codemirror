@@ -4,8 +4,9 @@ import haxe.Constraints;
 import haxe.extern.EitherType;
 import js.html.Element;
 import js.html.TextAreaElement;
+import js.html.Event;
 
-class EditorEvents
+class CodeMirrorEvents
 {
 	/**
 	 * Fires every time the content of the editor is changed.
@@ -24,7 +25,7 @@ class EditorEvents
 	 *       an <a href="#operation">operation</a>, before the DOM updates
 	 *       happen.
 	 */
-	public static inline function on_change(target:Editor, callb:CodeMirror->Dynamic->Void) : Dynamic return target.on("change", callb);
+	public static inline function on_change(target:CodeMirror, callb:CodeMirror->Dynamic->Void) target.on("change", callb);
 	
 	/**
 	 * Like the <a href="#event_change"><code>"change"</code></a>
@@ -33,7 +34,7 @@ class EditorEvents
 	 *       operation. This event is fired after the operation finished, and
 	 *       display changes it makes will trigger a new operation.
 	 */
-	public static inline function on_changes(target:Editor, callb:CodeMirror->Array<Dynamic>->Void) : Dynamic return target.on("changes", callb);
+	public static inline function on_changes(target:CodeMirror, callb:CodeMirror->Array<Dynamic>->Void) target.on("changes", callb);
 	
 	/**
 	 * This event is fired before a change is applied, and its
@@ -58,13 +59,13 @@ class EditorEvents
 	 *       implementation, probably cause the editor to become
 	 *       corrupted.
 	 */
-	public static inline function on_beforeChange(target:Editor, callb:CodeMirror->Dynamic->Void) : Dynamic return target.on("beforeChange", callb);
+	public static inline function on_beforeChange(target:CodeMirror, callb:CodeMirror->Dynamic->Void) target.on("beforeChange", callb);
 	
 	/**
 	 * Will be fired when the cursor or selection moves, or any
 	 *       change is made to the editor content.
 	 */
-	public static inline function on_cursorActivity(target:Editor, callb:CodeMirror->Void) : Dynamic return target.on("cursorActivity", callb);
+	public static inline function on_cursorActivity(target:CodeMirror, callb:CodeMirror->Void) target.on("cursorActivity", callb);
 	
 	/**
 	 * Fired after a key is handled through a
@@ -73,20 +74,20 @@ class EditorEvents
 	 *       and <code>event</code> is the DOM <code>keydown</code>
 	 *       or <code>keypress</code> event.
 	 */
-	public static inline function on_keyHandled(target:Editor, callb:CodeMirror->String->Event->Void) : Dynamic return target.on("keyHandled", callb);
+	public static inline function on_keyHandled(target:CodeMirror, callb:CodeMirror->String->Event->Void) target.on("keyHandled", callb);
 	
 	/**
 	 * Fired whenever new input is read from the hidden textarea
 	 *       (typed or pasted by the user).
 	 */
-	public static inline function on_inputRead(target:Editor, callb:CodeMirror->Dynamic->Void) : Dynamic return target.on("inputRead", callb);
+	public static inline function on_inputRead(target:CodeMirror, callb:CodeMirror->Dynamic->Void) target.on("inputRead", callb);
 	
 	/**
 	 * Fired if text input matched the
 	 *       mode's <a href="#option_electricChars">electric</a> patterns,
 	 *       and this caused the line's indentation to change.
 	 */
-	public static inline function on_electricInput(target:Editor, callb:CodeMirror->Int->Void) : Dynamic return target.on("electricInput", callb);
+	public static inline function on_electricInput(target:CodeMirror, callb:CodeMirror->Int->Void) target.on("electricInput", callb);
 	
 	/**
 	 * This event is fired before the selection is moved. Its
@@ -103,7 +104,7 @@ class EditorEvents
 	 *       handlers — they should not do anything to directly update the
 	 *       state of the editor.
 	 */
-	public static inline function on_beforeSelectionChange(target:Editor, callb:CodeMirror->{ ranges:Dynamic, origin:Dynamic, update:Dynamic }->Void) : Dynamic return target.on("beforeSelectionChange", callb);
+	public static inline function on_beforeSelectionChange(target:CodeMirror, callb:CodeMirror->{ ranges:Dynamic, origin:Dynamic, update:Dynamic }->Void) target.on("beforeSelectionChange", callb);
 	
 	/**
 	 * Fires whenever the <a href="#getViewport">view port</a> of
@@ -111,14 +112,14 @@ class EditorEvents
 	 *       factor). The <code>from</code> and <code>to</code> arguments
 	 *       give the new start and end of the viewport.
 	 */
-	public static inline function on_viewportChange(target:Editor, callb:CodeMirror->Float->Float->Void) : Dynamic return target.on("viewportChange", callb);
+	public static inline function on_viewportChange(target:CodeMirror, callb:CodeMirror->Float->Float->Void) target.on("viewportChange", callb);
 	
 	/**
 	 * This is signalled when the editor's document is replaced
 	 *       using the <a href="#swapDoc"><code>swapDoc</code></a>
 	 *       method.
 	 */
-	public static inline function on_swapDoc(target:Editor, callb:CodeMirror->Doc->Void) : Dynamic return target.on("swapDoc", callb);
+	public static inline function on_swapDoc(target:CodeMirror, callb:CodeMirror->Doc->Void) target.on("swapDoc", callb);
 	
 	/**
 	 * Fires when the editor gutter (the line-number area) is
@@ -128,7 +129,7 @@ class EditorEvents
 	 *       argument, and the raw <code>mousedown</code> event object as
 	 *       fourth argument.
 	 */
-	public static inline function on_gutterClick(target:Editor, callb:CodeMirror->Int->String->Event->Void) : Dynamic return target.on("gutterClick", callb);
+	public static inline function on_gutterClick(target:CodeMirror, callb:CodeMirror->Int->String->Event->Void) target.on("gutterClick", callb);
 	
 	/**
 	 * Fires when the editor gutter (the line-number area)
@@ -140,22 +141,22 @@ class EditorEvents
 	 *       You can <code>preventDefault</code> the event, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_gutterContextMenu(target:Editor, callb:CodeMirror->Int->String->Event: Event->Void) : Dynamic return target.on("gutterContextMenu", callb);
+	public static inline function on_gutterContextMenu(target:CodeMirror, callb:CodeMirror->Int->String->Event->Void) target.on("gutterContextMenu", callb);
 	
 	/**
 	 * Fires whenever the editor is focused.
 	 */
-	public static inline function on_focus(target:Editor, callb:CodeMirror->Void) : Dynamic return target.on("focus", callb);
+	public static inline function on_focus(target:CodeMirror, callb:CodeMirror->Void) target.on("focus", callb);
 	
 	/**
 	 * Fires whenever the editor is unfocused.
 	 */
-	public static inline function on_blur(target:Editor, callb:CodeMirror->Void) : Dynamic return target.on("blur", callb);
+	public static inline function on_blur(target:CodeMirror, callb:CodeMirror->Void) target.on("blur", callb);
 	
 	/**
 	 * Fires when the editor is scrolled.
 	 */
-	public static inline function on_scroll(target:Editor, callb:CodeMirror->Void) : Dynamic return target.on("scroll", callb);
+	public static inline function on_scroll(target:CodeMirror, callb:CodeMirror->Void) target.on("scroll", callb);
 	
 	/**
 	 * Fires when the editor tries to scroll its cursor into view.
@@ -164,12 +165,12 @@ class EditorEvents
 	 *       its <code>preventDefault</code> method called, CodeMirror will
 	 *       not itself try to scroll the window.
 	 */
-	public static inline function on_scrollCursorIntoView(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("scrollCursorIntoView", callb);
+	public static inline function on_scrollCursorIntoView(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("scrollCursorIntoView", callb);
 	
 	/**
 	 * Will be fired whenever CodeMirror updates its DOM display.
 	 */
-	public static inline function on_update(target:Editor, callb:CodeMirror->Void) : Dynamic return target.on("update", callb);
+	public static inline function on_update(target:CodeMirror, callb:CodeMirror->Void) target.on("update", callb);
 	
 	/**
 	 * Fired whenever a line is (re-)rendered to the DOM. Fired
@@ -178,7 +179,7 @@ class EditorEvents
 	 *       the resulting element, or add event handlers, but
 	 *       should <em>not</em> try to change the state of the editor.
 	 */
-	public static inline function on_renderLine(target:Editor, callb:CodeMirror->LineHandle->Element->Void) : Dynamic return target.on("renderLine", callb);
+	public static inline function on_renderLine(target:CodeMirror, callb:CodeMirror->LineHandle->Element->Void) target.on("renderLine", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -186,7 +187,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_mousedown(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("mousedown", callb);
+	public static inline function on_mousedown(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("mousedown", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -194,7 +195,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_dblclick(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("dblclick", callb);
+	public static inline function on_dblclick(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("dblclick", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -202,7 +203,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_touchstart(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("touchstart", callb);
+	public static inline function on_touchstart(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("touchstart", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -210,7 +211,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_contextmenu(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("contextmenu", callb);
+	public static inline function on_contextmenu(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("contextmenu", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -218,7 +219,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_keydown(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("keydown", callb);
+	public static inline function on_keydown(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("keydown", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -226,7 +227,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_keypress(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("keypress", callb);
+	public static inline function on_keypress(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("keypress", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -234,7 +235,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_keyup(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("keyup", callb);
+	public static inline function on_keyup(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("keyup", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -242,7 +243,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_cut(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("cut", callb);
+	public static inline function on_cut(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("cut", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -250,7 +251,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_copy(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("copy", callb);
+	public static inline function on_copy(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("copy", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -258,7 +259,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_paste(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("paste", callb);
+	public static inline function on_paste(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("paste", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -266,7 +267,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_dragstart(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("dragstart", callb);
+	public static inline function on_dragstart(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("dragstart", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -274,7 +275,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_dragenter(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("dragenter", callb);
+	public static inline function on_dragenter(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("dragenter", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -282,7 +283,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_dragover(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("dragover", callb);
+	public static inline function on_dragover(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("dragover", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -290,7 +291,7 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_dragleave(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("dragleave", callb);
+	public static inline function on_dragleave(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("dragleave", callb);
 	
 	/**
 	 * Fired when CodeMirror is handling a DOM event of this type.
@@ -298,5 +299,5 @@ class EditorEvents
 	 *       truthy <code>codemirrorIgnore</code> property, to signal that
 	 *       CodeMirror should do no further handling.
 	 */
-	public static inline function on_drop(target:Editor, callb:CodeMirror->Event->Void) : Dynamic return target.on("drop", callb);
+	public static inline function on_drop(target:CodeMirror, callb:CodeMirror->Event->Void) target.on("drop", callb);
 }

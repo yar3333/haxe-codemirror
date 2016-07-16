@@ -26,7 +26,7 @@ extern class Doc
 	 *       argument can be given to indicate the line separator string to
 	 *       use (defaults to <code>"\n"</code>).
 	 */
-	function getRange(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }, ?separator:String) : String;
+	function getRange(from:Position, to:Position, ?separator:String) : String;
 	
 	/**
 	 * Replace the part of the document between <code>from</code>
@@ -40,7 +40,7 @@ extern class Doc
 	 *       can be merged with previous history events, in the way described
 	 *       for <a href="#selection_origin">selection origins</a>.
 	 */
-	function replaceRange(replacement:String, from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }, ?origin:String) : Void;
+	function replaceRange(replacement:String, from:Position, to:Position, ?origin:String) : Void;
 	
 	/**
 	 * Get the content of line <code>n</code>.
@@ -170,7 +170,7 @@ extern class Doc
 	 *       passing <code>"head"</code>. A <code>{line, ch}</code> object
 	 *       will be returned.
 	 */
-	function getCursor(?start:String) : { line:Int, ch:Int };
+	function getCursor(?start:String) : Position;
 	
 	/**
 	 * Retrieves a list of all current selections. These will
@@ -179,7 +179,7 @@ extern class Doc
 	 *       and <code>head</code> properties referring to <code>{line,
 	 *       ch}</code> objects.
 	 */
-	function listSelections() : Array<{ anchor:Dynamic, head:Dynamic }>;
+	function listSelections() : Array<{ anchor:Position, head:Position }>;
 	
 	/**
 	 * Return true if any text is selected.
@@ -193,7 +193,7 @@ extern class Doc
 	 *       selections with a single, empty selection at the given position.
 	 *       The supported options are the same as for <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function setCursor(pos:{ line:Int, ch:Int }) : Void;
+	function setCursor(pos:Position) : Void;
 	
 	/**
 	 * Set a single selection range. <code>anchor</code>
@@ -224,7 +224,7 @@ extern class Doc
 	 *         stuck.</dd>
 	 *       </dl>
 	 */
-	function setSelection(anchor:{ line:Int, ch:Int }, ?head:{ line:Int, ch:Int }, ?options:Dynamic) : Void;
+	function setSelection(anchor:Position, ?head:Position, ?options:Dynamic) : Void;
 	
 	/**
 	 * Sets a new set of selections. There must be at least one
@@ -241,7 +241,7 @@ extern class Doc
 	 * Adds a new selection to the existing set of selections, and
 	 *       makes it the primary selection.
 	 */
-	function addSelection(anchor:{ line:Int, ch:Int }, ?head:{ line:Int, ch:Int }) : Void;
+	function addSelection(anchor:Position, ?head:Position) : Void;
 	
 	/**
 	 * Similar
@@ -256,21 +256,21 @@ extern class Doc
 	 *       the primary selection will be dropped by this method.
 	 *       Supports the same options as <a href="#setSelection"><code>setSelection</code></a>.
 	 */
-	function extendSelection(from:{ line:Int, ch:Int }, ?to:{ line:Int, ch:Int }, ?options:Dynamic) : Void;
+	function extendSelection(from:Position, ?to:Position, ?options:Dynamic) : Void;
 	
 	/**
 	 * An equivalent
 	 *       of <a href="#extendSelection"><code>extendSelection</code></a>
 	 *       that acts on all selections at once.
 	 */
-	function extendSelections(heads:Array<{ line:Int, ch:Int }>, ?options:Dynamic) : Void;
+	function extendSelections(heads:Array<Position>, ?options:Dynamic) : Void;
 	
 	/**
 	 * Applies the given function to all existing selections, and
 	 *       calls <a href="#extendSelections"><code>extendSelections</code></a>
 	 *       on the result.
 	 */
-	function extendSelectionsBy(f:{ anchor:Dynamic, head:Dynamic }->{ line:Int, ch:Int }, ?options:Dynamic) : Void;
+	function extendSelectionsBy(f:{ anchor:Dynamic, head:Dynamic }->Position, ?options:Dynamic) : Void;
 
 	/**
 	 * Sets or clears the 'extending' flag, which acts similar to
@@ -406,7 +406,7 @@ extern class Doc
 	 *       a <a href="#mark_replacedWith"><code>replacedWith</code></a>
 	 *       node), and want to cheaply update the display.
 	 */
-	function markText(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }, ?options:MarkTextOptions) : TextMarker;
+	function markText(from:Position, to:Position, ?options:MarkTextOptions) : TextMarker;
 	
 	/**
 	 * Inserts a bookmark, a handle that follows the text around it
@@ -416,19 +416,19 @@ extern class Doc
 	 *       the document, and the second explicitly removes the bookmark.
 	 *       The options argument is optional.
 	 */
-	function setBookmark(pos:{ line:Int, ch:Int }, ?options:BookmarkOptions) : TextMarker;
+	function setBookmark(pos:Position, ?options:BookmarkOptions) : TextMarker;
 	
 	/**
 	 * Returns an array of all the bookmarks and marked ranges
 	 *       found between the given positions.
 	 */
-	function findMarks(from:{ line:Int, ch:Int }, to:{ line:Int, ch:Int }) : Array<TextMarker>;
+	function findMarks(from:Position, to:Position) : Array<TextMarker>;
 	
 	/**
 	 * Returns an array of all the bookmarks and marked ranges
 	 *       present at the given position.
 	 */
-	function findMarksAt(pos:{ line:Int, ch:Int }) : Array<TextMarker>;
+	function findMarksAt(pos:Position) : Array<TextMarker>;
 	
 	/**
 	 * Returns an array containing all marked ranges in the document.
@@ -528,10 +528,10 @@ extern class Doc
 	 *       the returned object is clipped to start or end of the text
 	 *       respectively.
 	 */
-	function posFromIndex(index:Int) : { line:Int, ch:Int };
+	function posFromIndex(index:Int) : Position;
 	
 	/**
 	 * The reverse of <a href="#posFromIndex"><code>posFromIndex</code></a>.
 	 */
-	function indexFromPos(object:{ line:Int, ch:Int }) : Int;
+	function indexFromPos(object:Position) : Int;
 }

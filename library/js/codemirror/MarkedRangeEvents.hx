@@ -13,7 +13,7 @@ class MarkedRangeEvents
 	 *       but <em>not</em> modified, with the exception that the range on
 	 *       which the event fires may be cleared.
 	 */
-	public static inline function on_beforeCursorEnter(target:MarkedRange, callb:->Void) : Dynamic return target.on("beforeCursorEnter", callb);
+	public static inline function on_beforeCursorEnter(target:MarkedRange, callb:Void->Void) : Dynamic return target.on("beforeCursorEnter", callb);
 	
 	/**
 	 * Fired when the range is cleared, either through cursor
@@ -26,17 +26,17 @@ class MarkedRangeEvents
 	 *       and <code>to</code> give the part of the document that the range
 	 *       spanned when it was cleared.
 	 */
-	public static inline function on_clear(target:MarkedRange, callb:{ line:Int, ch:Int }->{ line:Int, ch:Int }->Void) : Dynamic return target.on("clear", callb);
+	public static inline function on_clear(target:MarkedRange, callb:Position->Position->Void) : Dynamic return target.on("clear", callb);
 	
 	/**
 	 * Fired when the last part of the marker is removed from the
 	 *       document by editing operations.
 	 */
-	public static inline function on_hide(target:MarkedRange, callb:->Void) : Dynamic return target.on("hide", callb);
+	public static inline function on_hide(target:MarkedRange, callb:Void->Void) : Dynamic return target.on("hide", callb);
 	
 	/**
 	 * Fired when, after the marker was removed by editing, a undo
 	 *       operation brought the marker back.
 	 */
-	public static inline function on_unhide(target:MarkedRange, callb:->Void) : Dynamic return target.on("unhide", callb);
+	public static inline function on_unhide(target:MarkedRange, callb:Void->Void) : Dynamic return target.on("unhide", callb);
 }
