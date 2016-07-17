@@ -36,11 +36,14 @@ typedef HintOptions =
 	@:optional var closeOnUnfocus : Bool;
 	@:optional var customKeys : Dynamic;
 	@:optional var extraKeys : Dynamic;
-	
-	@:optional var shown : Void->Void;
-	@:optional var select : EitherType<Completion, String>->js.html.Element->Void;
-	@:optional var pick : EitherType<Completion, String>->js.html.Element->Void;
-	@:optional var close : Void->Void;
+}
+
+class ShowHintEvents
+{
+	public static inline function shown(completion:Completions, callb:Void->Void) CodeMirror.onStatic(completion, "shown", callb);
+	public static inline function select(completion:Completions, callb:EitherType<Completion, String>->js.html.Element->Void) CodeMirror.onStatic(completion, "select", callb);
+	public static inline function pick(completion:Completions, callb:EitherType<Completion, String>->js.html.Element->Void) CodeMirror.onStatic(completion, "pick", callb);
+	public static inline function close(completion:Completions, callb:Void->Void) CodeMirror.onStatic(completion, "close", callb);
 }
 
 extern class ShowHint

@@ -122,6 +122,8 @@ extern class CodeMirror extends Doc
 	 */
 	function on(type:String, func:Function) : Void;
 	
+	static inline function onStatic(obj:Dynamic, type:String, func:Function) : Void (cast CodeMirror).on(obj, type, func);
+	
 	/**
 	 * Remove an event handler on the editor instance. An
 	 *       equivalent <code>CodeMirror.off(object, type,
