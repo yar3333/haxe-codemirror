@@ -4,7 +4,7 @@ import haxe.extern.EitherType;
 
 typedef Completions =
 {
-	var list : EitherType<Array<String>, Array<Completion>>;
+	var list : Array<EitherType<String, Completion>>;
 	var from : Position;
 	var to : Position;
 	@:optional var selectedHint : Int;
@@ -17,7 +17,7 @@ typedef Completion =
 	@:optional var text : String;
 	@:optional var displayText : String;
 	@:optional var className : String;
-	@:optional var render : js.html.Element->Dynamic->Dynamic->Void;
+	@:optional var render : js.html.Element->Completions->EitherType<String, Completion>->Void;
 	@:optional var hint : HintFunction;
 	@:optional var from : Position;
 	@:optional var to : Position;
