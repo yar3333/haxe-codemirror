@@ -36,6 +36,7 @@ typedef HintOptions =
 	@:optional var closeOnUnfocus : Bool;
 	@:optional var customKeys : Dynamic;
 	@:optional var extraKeys : Dynamic;
+	@:optional var completeOnSingleClick : Bool;
 }
 
 class ShowHintEvents
