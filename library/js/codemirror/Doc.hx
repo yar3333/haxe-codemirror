@@ -40,7 +40,7 @@ extern class Doc
 	 *       can be merged with previous history events, in the way described
 	 *       for <a href="#selection_origin">selection origins</a>.
 	 */
-	function replaceRange(replacement:String, from:Position, to:Position, ?origin:String) : Void;
+	function replaceRange(replacement:String, from:Position, ?to:Position, ?origin:String) : Void;
 	
 	/**
 	 * Get the content of line <code>n</code>.
