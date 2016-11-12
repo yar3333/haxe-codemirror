@@ -5,7 +5,7 @@ extern class TextMarker
 {
 	function clear() : Void;
 	
-	function find() : { from:Int, to:Int };
+	function find(?side:Int) : { from:Position, to:Position };
 	
 	/*
 	 * Call if you've done something that might change the size of the marker
