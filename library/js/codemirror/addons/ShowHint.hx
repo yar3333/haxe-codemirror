@@ -10,7 +10,7 @@ typedef Completions =
 	@:optional var selectedHint : Int;
 }
 
-typedef HintFunction = EitherType<CodeMirror->HintOptions->Completions, CodeMirror->HintOptions->js.Promise<Completions>>;
+typedef HintFunction = EitherType<CodeMirror->HintOptions->Completions, CodeMirror->HintOptions->js.lib.Promise<Completions>>;
 
 typedef Completion =
 {
