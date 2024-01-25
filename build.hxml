@@ -1,0 +1,4 @@
+--js tests\bin\test.js
+--class-path library
+--class-path tests
+--main Main 
